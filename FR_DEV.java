@@ -1,3 +1,4 @@
+package FR;
 import java.util.Scanner;
 
 class equipment{
@@ -9,7 +10,8 @@ class equipment{
     String e_Install_date;
     String e_parameter;
     String e_Status;
-    //目前还有id自动填的功能未实现：设备缩写有，编号还没
+    static int count;  //以后细分每个类都有独自的count
+    //目前还有id自动填的功能未完全实现：设备缩写由类提供，编号作为static成员
     equipment(String e_name,String e_type
             ,String e_model,String e_wellsite,
             String e_Install_date,String e_parameter,String e_Status){
@@ -21,9 +23,10 @@ class equipment{
         this.e_parameter=e_parameter;
         this.e_type=e_type;
         this.e_wellsite=e_wellsite;
+        count++;
     }
 
-
+//加入id查询系统，将参数改成id
     static void show_info(equipment e){
         System.out.println("id:"+e.e_ID);
         System.out.println("name:"+e.e_name);
@@ -36,20 +39,22 @@ class equipment{
 }
 
 public class FR_DEV{
-    
-    public static void main(String[] args){
-        equipment[] Equ=new equipment[2];
+    static equipment[] e_Init(int count){
+        equipment E[]=new equipment[count];
+        return E;
+    }
+    public static equipment E_add(equipment E[],Scanner sc){
         
-        //以后要把这个print转移到控制面板上
-        System.out.println("请依次输入：设备名称，类型，型号，所属井场，安装日期，额定参数，设备状态");
-        Scanner sc=new Scanner(System.in);
-        Equ[0]=new equipment(
-        sc.nextLine(),sc.nextLine(),
-        sc.nextLine(),sc.nextLine(),
-        sc.nextLine(),sc.nextLine(),sc.nextLine());
-        sc.close();
-        equipment.show_info(Equ[0]);
-        }
+        int n=equipment.count;
+        E[n]=new equipment(
+                        sc.nextLine(),sc.nextLine(),
+                        sc.nextLine(),sc.nextLine(),
+                        sc.nextLine(),sc.nextLine(),sc.nextLine());
+        
+        E[n].e_ID=E[n].e_type+"_"+(n+1);
+        return E[n];
+    }
+    
         
                 
     }
