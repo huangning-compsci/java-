@@ -9,7 +9,8 @@ public class FR_UI{
         
         Scanner sc=new Scanner(System.in);
 
-        while(true){
+        boolean _continue=true;
+        while(_continue){
             System.out.println("=".repeat(30));
             
             System.out.println("1.新增设备");
@@ -27,7 +28,6 @@ public class FR_UI{
                     System.out.println("请依次输入：设备名称，类型，型号，所属井场，安装日期，额定参数，设备状态");
                     FR_DEV.E_add(E,sc);
                     break;
-                
                 case 2:
                     System.out.println("-".repeat(30));
                     System.out.println("设备信息如下：");
@@ -36,11 +36,10 @@ public class FR_UI{
                         equipment.show_info(E[i]);  //改成编号为参数
                     }
                     break;
-
-                default:
+                case 3:
+                    _continue=false;
                     break;
             }
-               
         }
     }
 }
