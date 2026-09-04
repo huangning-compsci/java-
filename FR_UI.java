@@ -28,10 +28,10 @@ public class FR_UI{
                     System.out.println("请依次输入：设备名称，类型，型号，所属井场，安装日期，额定参数，设备状态");
                     FR_DEV.E_add(E,sc);
                     break;
-                case 2:
+                case 2://加入没有设备时查询的错误处理
                     System.out.println("-".repeat(30));
                     System.out.println("设备信息如下：");
-                    for (int i=0;i<2;i++){  //循环次数待更改
+                    for (int i=0;i<1;i++){  //循环次数待更改
                         System.out.println("-".repeat(30));   
                         equipment.show_info(E[i]);  //改成编号为参数
                     }
