@@ -15,7 +15,8 @@ public class FR_UI{
             
             System.out.println("1.新增设备");
             System.out.println("2.查询设备");
-            System.out.println("3.退出系统");
+            System.out.println("3.删除设备");//新增删除操作
+            System.out.println("4.退出系统");
 
             System.out.println("=".repeat(30));
 
@@ -36,7 +37,18 @@ public class FR_UI{
                         equipment.show_info(E[i]);  //改成编号为参数
                     }
                     break;
-                case 3:
+                case 3: //删除功能
+                    sc.nextLine();
+                    System.out.println("请输入要删除的设备编号： ");
+                    String idToDelete =sc.nextLine();
+                    boolean deleted = FR_DEV.E_delete(E, idToDelete);
+                    if (deleted){
+                        System.out.println("设备删除成功！");
+                    }else{
+                        System.out.println("未找到该设备，删除失败！");
+                    }
+                    break;
+                case 4:
                     _continue=false;
                     break;
             }
