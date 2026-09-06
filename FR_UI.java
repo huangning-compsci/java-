@@ -10,7 +10,9 @@ public class FR_UI{
         
         boolean _continue=true;
         while(_continue){
+            System.out.println("\t    首页");
             System.out.println("=".repeat(30));
+            
             
             System.out.println("1.新增设备");
             System.out.println("2.查询设备");
@@ -26,19 +28,45 @@ public class FR_UI{
                     sc.nextLine();//吃掉换行符，学以致用
                     System.out.println("请输入：设备类型");
                     System.out.println("1.抽油机(PU)");
-                    System.out.println("2.传感器");
+                    System.out.println("2.离心泵(CP)");
                     System.out.println("-".repeat(30));
                     switch (sc.next()) {
                         case "1":
                         case "抽油机":{
                             System.out.println("请依次输入：所属井场，安装日期，型号");
-                        PumpingUnit device=new PumpingUnit(sc.next(),sc.next(),sc.next());
+                            PumpingUnit device=new PumpingUnit(sc.next(),sc.next(),sc.next());
                             boolean Success=FR_DEV.add(PumpingUnit.DEVICES,device);
                             System.out.println();
                             System.out.println (Success ? "添加成功" : "提交失败：数组已满");
                             break;}
+                        
+                        case "2":
+                        case "离心泵":{
+                            System.out.println("请依次输入：所属井场，安装日期，型号");
+                            CentrifugalPump device=new CentrifugalPump(sc.next(),sc.next(),sc.next());
+                            boolean Success=FR_DEV.add(CentrifugalPump.DEVICES,device);
+                            System.out.println();
+                            System.out.println(Success?"添加成功":"添加失败：数组已满");
+                            break;
+                        }
                         default:
-                            System.out.println("暂不支持该设备");
+                            System.out.println("暂不支持该设备，是否回到首页重新选择");
+                            boolean Continue1_=true;
+                            System.out.println("1.回到首页");
+                            System.out.println("2.退出");
+                            while (Continue1_==true){
+                                switch (sc.next()) {
+                                    case "1":
+                                        Continue1_=false;
+                                        break;
+                                    case "2":
+                                        Continue1_=false;
+                                        _continue=false;
+                                    default:
+                                    System.out.println("请输入正确的数字！");    
+                                    break;
+                                }
+                            }
                     }
                    
                     
