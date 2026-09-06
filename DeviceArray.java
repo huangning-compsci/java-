@@ -12,7 +12,7 @@ public class DeviceArray<T extends equipment> {
 
     boolean store(T device){
         if(count>=devices.length){
-            return  false;
+            return false;
         }
 
         devices[count++]=device;
