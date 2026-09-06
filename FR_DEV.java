@@ -58,7 +58,8 @@ public class FR_DEV{
         switch (parts[0]) {
             case "PU":
                 return PumpingUnit.DEVICES.get(index);
-        
+            case "CP":
+                return CentrifugalPump.DEVICES.get(index);
             default:
                 return null;
         }
