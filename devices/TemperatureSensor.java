@@ -1,4 +1,4 @@
-package FR;
+package FR.devices;
 
 public class TemperatureSensor extends equipment{
     double tempRange;
@@ -7,7 +7,7 @@ public class TemperatureSensor extends equipment{
     double upperLimit;
     static String Name="TS";
     static int index;
-    static final DeviceArray<TemperatureSensor> DEVICES =
+    public static final DeviceArray<TemperatureSensor> DEVICES =
         new DeviceArray<>(new TemperatureSensor[10]);
 
     public TemperatureSensor(

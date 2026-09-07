@@ -1,4 +1,4 @@
-package FR;
+package FR.devices;
 
 public class DeviceArray<T extends equipment> {
     private int count;
@@ -10,7 +10,7 @@ public class DeviceArray<T extends equipment> {
 
     }
 
-    boolean store(T device){
+    public boolean store(T device){
         if(count>=devices.length){
             return false;
         }
@@ -19,7 +19,7 @@ public class DeviceArray<T extends equipment> {
         return  true;
     }
 
-    T get(int index){
+    public T get(int index){
         if(index<0 ||index >=count){
             return  null;
         }

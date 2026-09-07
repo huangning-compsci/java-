@@ -1,4 +1,4 @@
-package FR;
+package FR.devices;
 
 public class equipment {
     String e_ID;
@@ -25,4 +25,23 @@ public class equipment {
 
     }
 
+    public String getId(){
+        return e_ID;
+    }
+
+    public String getInstallDate(){
+        return e_Install_date;
+    }
+
+    public String getStatus(){
+        return e_Status;
+    }
+
+    public String getModel(){
+        return e_model;
+    }
+
+    public String getWellsite(){
+        return e_wellsite;
+    }
 }

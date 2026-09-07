@@ -1,4 +1,4 @@
-package FR;
+package FR.devices;
 
 public  class  PumpingUnit extends  equipment{
     
@@ -9,7 +9,7 @@ public  class  PumpingUnit extends  equipment{
     double ratedLoad;
     static String Name="PU"; 
     static int index; 
-    static final DeviceArray<PumpingUnit> DEVICES =
+    public static final DeviceArray<PumpingUnit> DEVICES =
         new DeviceArray<>(new PumpingUnit[10]);
     
     

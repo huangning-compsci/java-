@@ -1,4 +1,4 @@
-package FR;
+package FR.devices;
 
 public class PressureSensor extends equipment{
     double pressureRange;
@@ -8,7 +8,7 @@ public class PressureSensor extends equipment{
     double lowerLimit;
     static String Name="PS";
     static int index;
-    static final DeviceArray<PressureSensor> DEVICES =
+    public static final DeviceArray<PressureSensor> DEVICES =
         new DeviceArray<>(new PressureSensor[10]);
 
     public PressureSensor(

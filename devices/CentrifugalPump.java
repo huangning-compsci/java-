@@ -1,4 +1,4 @@
-package FR;
+package FR.devices;
 
 public class CentrifugalPump extends equipment {
     double ratedFlow;
@@ -7,7 +7,7 @@ public class CentrifugalPump extends equipment {
     double outletPressure;
     static int index;
     static String Name="CP";
-    static final DeviceArray<CentrifugalPump> DEVICES=
+    public static final DeviceArray<CentrifugalPump> DEVICES=
             new DeviceArray<>(new CentrifugalPump[10]);
     
 

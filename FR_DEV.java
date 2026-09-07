@@ -1,4 +1,11 @@
 package FR;
+import FR.devices.CentrifugalPump;
+import FR.devices.DeviceArray;
+import FR.devices.FlowMeter;
+import FR.devices.PressureSensor;
+import FR.devices.PumpingUnit;
+import FR.devices.TemperatureSensor;
+import FR.devices.equipment;
 
 
 
@@ -22,8 +29,8 @@ public class FR_DEV{
             return false;
         }
         String[] headers={"设备id","安装日期","目前状态","设备型号","所处井场"};
-        String[] values={device.e_ID,device.e_Install_date,device.e_Status,
-            device.e_model,device.e_wellsite};
+        String[] values={device.getId(),device.getInstallDate(),device.getStatus(),
+            device.getModel(),device.getWellsite()};
         StringBuilder headerRow=new StringBuilder();
         StringBuilder valueRow=new StringBuilder();
         for(int i=0;i<headers.length;i++){

@@ -1,4 +1,4 @@
-package FR;
+package FR.devices;
 
 public class FlowMeter extends equipment{
     double flowRange;
@@ -7,7 +7,7 @@ public class FlowMeter extends equipment{
     double totalFlow;
     static String Name="FM";
     static int index;
-    static final DeviceArray<FlowMeter> DEVICES =
+    public static final DeviceArray<FlowMeter> DEVICES =
         new DeviceArray<>(new FlowMeter[10]);
 
     public FlowMeter(
