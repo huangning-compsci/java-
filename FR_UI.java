@@ -13,10 +13,12 @@ public class FR_UI{
         System.out.println("SmartOil 油气井管理系统 v1.0");
         
         Scanner sc=new Scanner(System.in);
-        boolean continue_=true;
+        boolean CONTINUE=true;
         
-        while (continue_){
-            boolean _continue=true;
+        while (CONTINUE){
+            boolean continue1_=true;
+            boolean continue1_1=true;
+            boolean continue1_4=true;
             System.out.println("\t    首页");
             System.out.println("=".repeat(30));
 
@@ -29,7 +31,7 @@ public class FR_UI{
             System.out.println("请输入您的选择：");
             switch (sc.next()) {
                 case "1":
-                                while(_continue){
+                while(continue1_){
                 System.out.println("\t   设备管理");
                 System.out.println("=".repeat(30));
                 
@@ -43,10 +45,13 @@ public class FR_UI{
                 System.out.println("=".repeat(30));
 
                 System.out.println("请输入您的选择：");
+                
                 switch (sc.next()) {
                     
                     case "1":
                         //加入容量不足的判断
+                    while (continue1_1==true){
+                        continue1_1=true;
                         sc.nextLine();//吃掉换行符，学以致用
                         System.out.println("请输入：设备类型");
                         System.out.println("1.抽油机(PU)");
@@ -62,11 +67,30 @@ public class FR_UI{
                             case "抽油机器":
                             case "抽油几":
                             case "抽油机":{
-                                System.out.println("请依次输入：所属井场，安装日期，型号");
-                                PumpingUnit device=new PumpingUnit(sc.next(),sc.next(),sc.next());
+                                sc.nextLine();
+                                String wellsite;
+                                do {
+                                    System.out.println("请输入所属井场：");
+                                    wellsite = sc.nextLine().trim();
+                                } while (wellsite.isEmpty());
+
+                                String installDate;
+                                do {
+                                    System.out.println("请输入安装时间：");
+                                    installDate = sc.nextLine().trim();
+                                } while (installDate.isEmpty());
+
+                                String model;
+                                do {
+                                    System.out.println("请输入型号：");
+                                    model = sc.nextLine().trim();
+                                } while (model.isEmpty());
+
+                                PumpingUnit device = new PumpingUnit(wellsite, installDate, model);
                                 boolean Success=FR_DEV.add(PumpingUnit.DEVICES,device);
                                 System.out.println();
                                 System.out.println (Success ? "添加成功" : "提交失败：数组已满");
+                                continue1_1=false;
                                 break;}
                             
                             case "2":
@@ -75,11 +99,30 @@ public class FR_UI{
                             case "离心水泵":
                             case "离心磅":
                             case "离心泵":{
-                                System.out.println("请依次输入：所属井场，安装日期，型号");
-                                CentrifugalPump device=new CentrifugalPump(sc.next(),sc.next(),sc.next());
+                                sc.nextLine();
+                                String wellsite;
+                                do {
+                                    System.out.println("请输入所属井场：");
+                                    wellsite = sc.nextLine().trim();
+                                } while (wellsite.isEmpty());
+
+                                String installDate;
+                                do {
+                                    System.out.println("请输入安装时间：");
+                                    installDate = sc.nextLine().trim();
+                                } while (installDate.isEmpty());
+
+                                String model;
+                                do {
+                                    System.out.println("请输入型号：");
+                                    model = sc.nextLine().trim();
+                                } while (model.isEmpty());
+
+                                CentrifugalPump device = new CentrifugalPump(wellsite, installDate, model);
                                 boolean Success=FR_DEV.add(CentrifugalPump.DEVICES,device);
                                 System.out.println();
                                 System.out.println(Success?"添加成功":"添加失败：数组已满");
+                                continue1_1=false;
                                 break;
                             }
                             case "3":
@@ -88,11 +131,30 @@ public class FR_UI{
                             case "压力感应器":
                             case "压力传感":
                             case "压力传感器":{
-                                System.out.println("请依次输入：所属井场，安装日期，型号");
-                                PressureSensor device=new PressureSensor(sc.next(),sc.next(),sc.next());
+                                sc.nextLine();
+                                String wellsite;
+                                do {
+                                    System.out.println("请输入所属井场：");
+                                    wellsite = sc.nextLine().trim();
+                                } while (wellsite.isEmpty());
+
+                                String installDate;
+                                do {
+                                    System.out.println("请输入安装时间：");
+                                    installDate = sc.nextLine().trim();
+                                } while (installDate.isEmpty());
+
+                                String model;
+                                do {
+                                    System.out.println("请输入型号：");
+                                    model = sc.nextLine().trim();
+                                } while (model.isEmpty());
+
+                                PressureSensor device = new PressureSensor(wellsite, installDate, model);
                                 boolean Success=FR_DEV.add(PressureSensor.DEVICES,device);
                                 System.out.println();
                                 System.out.println(Success?"添加成功":"添加失败：数组已满");
+                                continue1_1=false;
                                 break;
                             }
                             case "4":
@@ -101,11 +163,30 @@ public class FR_UI{
                             case "温度感应器":
                             case "温度传感":
                             case "温度传感器":{
-                                System.out.println("请依次输入：所属井场，安装日期，型号");
-                                TemperatureSensor device=new TemperatureSensor(sc.next(),sc.next(),sc.next());
+                                sc.nextLine();
+                                String wellsite;
+                                do {
+                                    System.out.println("请输入所属井场：");
+                                    wellsite = sc.nextLine().trim();
+                                } while (wellsite.isEmpty());
+
+                                String installDate;
+                                do {
+                                    System.out.println("请输入安装时间：");
+                                    installDate = sc.nextLine().trim();
+                                } while (installDate.isEmpty());
+
+                                String model;
+                                do {
+                                    System.out.println("请输入型号：");
+                                    model = sc.nextLine().trim();
+                                } while (model.isEmpty());
+
+                                TemperatureSensor device = new TemperatureSensor(wellsite, installDate, model);
                                 boolean Success=FR_DEV.add(TemperatureSensor.DEVICES,device);
                                 System.out.println();
                                 System.out.println(Success?"添加成功":"添加失败：数组已满");
+                                continue1_1=false;
                                 break;
                             }
                             case "5":
@@ -114,64 +195,129 @@ public class FR_UI{
                             case "流量表":
                             case "流量记":
                             case "流量计":{
-                                System.out.println("请依次输入：所属井场，安装日期，型号");
-                                FlowMeter device=new FlowMeter(sc.next(),sc.next(),sc.next());
+                                sc.nextLine();
+                                String wellsite;
+                                do {
+                                    System.out.println("请输入所属井场：");
+                                    wellsite = sc.nextLine().trim();
+                                } while (wellsite.isEmpty());
+
+                                String installDate;
+                                do {
+                                    System.out.println("请输入安装时间：");
+                                    installDate = sc.nextLine().trim();
+                                } while (installDate.isEmpty());
+
+                                String model;
+                                do {
+                                    System.out.println("请输入型号：");
+                                    model = sc.nextLine().trim();
+                                } while (model.isEmpty());
+
+                                FlowMeter device = new FlowMeter(wellsite, installDate, model);
                                 boolean Success=FR_DEV.add(FlowMeter.DEVICES,device);
                                 System.out.println();
                                 System.out.println(Success?"添加成功":"添加失败：数组已满");
+                                continue1_1=false;
                                 break;
                             }
                             default:
                                 System.out.println("暂不支持该设备，是否回到首页重新选择");
-                                boolean Continue1_=true;
-                                System.out.println("1.回到首页");
+            
+                                System.out.println("1.重新输入");
                                 System.out.println("2.退出");
-                                while (Continue1_==true){
+                                System.out.println("3.返回上一级菜单");
+                                
                                     switch (sc.next()) {
                                         case "1":
-                                            Continue1_=false;
+                                            
                                             break;
                                         case "2":
-                                            Continue1_=false;
-                                            _continue=false;
+                                            continue1_1=false;
+                                            continue1_=false;
+                                            CONTINUE=false;
+                                            break;
+                                        case "3":
+                                            continue1_1=false;
+                                            continue1_=false;
                                             break;
                                         default:
                                         System.out.println("请输入正确的数字！");    
                                         break;
+                                    
+                                    
                                     }
                                 }
-                        }
-                    
+                            }
                         
-                        break;
-                    case "2":
-                        sc.nextLine();
-                        System.out.println("请输入设备id,例如 PU_1:");
-                        String id=sc.nextLine();
+                            
+                            break;
+                        case "2":
+                            sc.nextLine();
+                            System.out.println("请输入设备id,例如 PU_1:");
+                            String id=sc.nextLine();
+                            
+                            equipment device =FR_DEV.findById(id);
+                            if(device==null){
+                                System.out.println("未找到相关设备");
+                            }else{
+                            System.out.println("-".repeat(30)+"设备信息"+"-".repeat(30));
+                            FR_DEV.show_info(device);  //改成编号为参数,泛型
+                            System.out.println("-".repeat(68));
+                            }
+                            break;
+                        case "3":
+                            //修改或补充设备信息
+                            break;
+                        case "4":
+                            while (continue1_4){
+                                continue1_4=true;
+                                System.out.println("请输入设备id");
+                                String Id=sc.next();
+                
+                                boolean Success=FR_DEV.deleteById(Id, sc);
+                                System.out.println();
+                                System.out.print(Success?"设备 " + Id + " 删除成功！":"设备删除失败！");
+                                if(!Success){
+                                    System.out.println("是否再次输入");
+                                    System.out.println("1.再次输入");
+                                    System.out.println("2.退出系统");
+                                    System.out.println("3.返回上一级");
+                                    System.out.println("=".repeat(30));
+                                    System.out.println("请输入您的选择");
+                                    switch (sc.next()) {
+                                        case "1":
+                                            
+                                            break;
+                                        case "2":
+                                            continue1_4=false;
+                                            continue1_=false;
+                                            CONTINUE=false;
+                                            break;
+                                        case "3":
+                                            continue1_4=false;
+                                            break;
+                                        default:
+                                            System.out.println("请输入正确的数字");
+                                            break;
+                                    }
+                                }else{
+                                    System.out.println();
+                                    continue1_4=false;
+                                }
+                            }
+                            break;
                         
-                        equipment device =FR_DEV.findById(id);
-                        if(device==null){
-                            System.out.println("未找到相关设备");
-                        }else{
-                        System.out.println("-".repeat(30)+"设备信息"+"-".repeat(30));
-                        FR_DEV.show_info(device);  //改成编号为参数,泛型
-                        System.out.println("-".repeat(68));
-                        }
-                        break;
-                    case "3":
-                        //修改或补充设备信息
-                    case "4":
-                        //删除设备
-                    case "5":
-                        _continue=false;
-                        continue_=false;
-                        break;
-                    case "6":
-                        _continue=false;
-                        break;
-                    default:
-                        System.out.println("请输入正确的数字！");
-                }
+                        case "5":
+                            continue1_=false;
+                            CONTINUE=false;
+                            break;
+                        case "6":
+                            continue1_=false;
+                            break;
+                        default:
+                            System.out.println("请输入正确的数字！");
+                    }
             }
                     break;
                 //此处case属于最大的switch
@@ -190,7 +336,7 @@ public class FR_UI{
                     break;
                 case "0":
                     //退出系统
-                    continue_=false;
+                    CONTINUE=false;
                     break;
                 default:
                     System.out.println("输入的数字有误，是否重新输入");
@@ -204,7 +350,7 @@ public class FR_UI{
                                 break;
                             case "2":
                                 continue2_=false;
-                                continue_=false;
+                                CONTINUE=false;
                                 break;
                             default:
                                 System.out.println("请输入正确的数字！");
