@@ -1,4 +1,6 @@
 package FR;
+import java.util.Scanner;
+
 import FR.devices.CentrifugalPump;
 import FR.devices.DeviceArray;
 import FR.devices.FlowMeter;
@@ -54,7 +56,7 @@ public class FR_DEV{
             || (c>=0xFF01 && c<=0xFF60)
             || (c>=0xFFE0 && c<=0xFFE6) ? 2 : 1).sum();
     }
-    
+    //id查询功能
     static equipment findById(String id){
         if (id==null){
             return null;
@@ -90,6 +92,74 @@ public class FR_DEV{
             default:
                 return null;
         }
+
+        
     }
+
+    //删除程序如下
+    static boolean deleteById(String id,Scanner sc) {
+
+        equipment device = findById(id);
+
+        // 查询不到设备
+        if (device == null) {
+            System.out.println("未找到设备：" + id);
+            return false;
+        }
+
+        // 显示设备详细信息
+        System.out.println("找到设备：");
+        show_info(device);
+
+        // 确认删除
+        System.out.print("确定要删除该设备吗？(y/n)：");
+
+        
+        String choice = sc.next();
+
+        if (!choice.equalsIgnoreCase("y")) {
+            System.out.println("已取消删除！");
+            return false;
+        }
+
+        String[] parts = id.trim().split("_");
+        int number = Integer.parseInt(parts[1]);
+        int index = number - 1;
+
+        boolean result = false;
+
+        switch (parts[0]) {
+
+            case "PU":
+                result = PumpingUnit.DEVICES.remove(index);
+                break;
+
+            case "CP":
+                result = CentrifugalPump.DEVICES.remove(index);
+                break;
+
+            case "PS":
+                result = PressureSensor.DEVICES.remove(index);
+                break;
+
+            case "TS":
+                result = TemperatureSensor.DEVICES.remove(index);
+                break;
+
+            case "FM":
+                result = FlowMeter.DEVICES.remove(index);
+                break;
+
+            default:
+                System.out.println("设备ID格式错误！");
+                return false;
+        }
+
+        
+
+        return result;
+    }
+    //请黄宁同志思考，是否会出现数组越界
+}
     
-    }
+    
