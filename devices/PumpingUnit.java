@@ -1,4 +1,4 @@
-package FR;
+package FR.devices;
 
 public  class  PumpingUnit extends  equipment{
     
@@ -8,8 +8,8 @@ public  class  PumpingUnit extends  equipment{
     double currentLoad; 
     double ratedLoad;
     static String Name="PU"; 
-    static int count; 
-    static final DeviceArray<PumpingUnit> DEVICES =
+    static int index; 
+    public static final DeviceArray<PumpingUnit> DEVICES =
         new DeviceArray<>(new PumpingUnit[10]);
     
     
@@ -26,12 +26,9 @@ public  class  PumpingUnit extends  equipment{
                 "stroke,strokeRate,currentLoad,ratedLoad,ratedPower"
                 );
 
-            this.e_ID=Name+'_'+(++count);
+            this.e_ID=Name+'_'+(++index);
 
             
     }
-    static PumpingUnit[] P_Init(int count){
-        PumpingUnit P[]=new PumpingUnit[count];
-        return P;
-    }
+    
 }
