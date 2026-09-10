@@ -322,9 +322,39 @@ public class FR_UI{
                     break;
                 //此处case属于最大的switch
                 case "2":
-                    //数据采集与监控
+                    //数据采集与监控    这段由Cr编写
+                    while (continue1_1==true){ 
+                        continue1_1=true;
+                        sc.nextLine();//吃掉换行符，学以致用
+                        System.out.println("请输入你要执行的操作");
+                        System.out.println("1.数据采集");
+                        System.out.println("2.实时状态");
+                        System.out.println("3.单设备状态查看");
+                        System.out.println("4.并发设备状态采集");
+                        System.out.println("-".repeat(30));
+                    }
+                    switch(sc.next()){
                     
-                    break;
+                    case  "1":{
+                        System.out.println("1.单机数据采集");
+                        System.out.println("2.批量数据采集");
+                    switch(sc.next()){
+                        case "1":
+                         
+                        case "2":
+                    }
+
+
+                    }
+
+                    case "2":
+                     
+                    case "3":
+
+                    case "4":
+
+                    }  
+                 break;
                 case "3":
                     //报警管理
                     break;
