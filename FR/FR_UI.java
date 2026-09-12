@@ -17,6 +17,7 @@ public class FR_UI{
         
         while (CONTINUE){
             boolean continue1_=true;
+            boolean continue2_=true;
             boolean continue1_1=true;
             boolean continue1_4=true;
             System.out.println("\t    首页");
@@ -323,8 +324,12 @@ public class FR_UI{
                 //此处case属于最大的switch
                 case "2":
                     //数据采集与监控    这段由Cr编写
-                    while (continue1_1==true){ 
-                        continue1_2=true;
+                   
+                    while (continue2_){ 
+                        boolean continue2_1=true;
+                        boolean continue2_2=true;
+                        boolean continue2_3=true;
+                        boolean continue2_4=true;
                         sc.nextLine();//吃掉换行符，学以致用
                         System.out.println("请输入你要执行的操作");
                         System.out.println("1.数据采集");
@@ -332,28 +337,78 @@ public class FR_UI{
                         System.out.println("3.单设备状态查看");
                         System.out.println("4.并发设备状态采集");
                         System.out.println("-".repeat(30));
-                    }
-                    switch(sc.next()){
+
+
+
+                        switch(sc.next()){
                     
-                    case  "1":{
-                        System.out.println("1.单机数据采集");
-                        System.out.println("2.批量数据采集");
-                    switch(sc.next()){
-                        case "1":
-                         
-                        case "2":
+                            case  "1":{
+        
+                                while(continue2_1==true){
+                                    System.out.println("\t   数据采集");
+                                    System.out.println("=".repeat(30));
+            
+                                    System.out.println("1.单机数据采集");
+                                    System.out.println("2.批量数据采集");
+                                    System.out.println("3.退出");
+                                switch(sc.next()){
+                                    case "1":
+                                      //实现
+        
+                                    System.out.println("按任意键返回");
+                                    sc.nextLine();
+                                    break;
+                                    case "2":
+                                     //实现
+        
+                                    
+                                    System.out.println("按任意键返回");
+                                    sc.nextLine();
+                                    break;
+                                    case "3":
+                                    continue2_1=false;   
+                                    break;
+                                    default:
+                                    System.out.println("非法输入，跳转回上一页面");
+                                    break;   
+                                }
+                            
+        
+                                }
+                                
+                               break;
+                            }
+        
+                            case "2":{
+                                System.out.println("\t   实时状态");
+                                System.out.println("=".repeat(30));
+                                //
+                                
+                                System.out.println("按任意键返回");  
+                                sc.nextLine();                            
+                            }
+                            break;
+                            case "3":{
+                                System.out.println("\t   实时状态");
+                                System.out.println("=".repeat(30));
+                                //
+                                
+                                System.out.println("按任意键返回");
+                                sc.nextLine();
+                            }
+                            break;
+                            case "4":{
+                                System.out.println("\t   实时状态");
+                                System.out.println("=".repeat(30));
+                                //
+                                
+                                System.out.println("按任意键返回");
+                                sc.nextLine();
+                            }
+                            break;
+                            }
                     }
-
-
-                    }
-
-                    case "2":
-                     
-                    case "3":
-
-                    case "4":
-
-                    }  
+                      
                  break;
                 case "3":
                     //报警管理
@@ -370,7 +425,8 @@ public class FR_UI{
                     break;
                 default:
                     System.out.println("输入的数字有误，是否重新输入");
-                    boolean continue2_ =true;
+                    boolean continue_D =true;
+
                     System.out.println("1.重新输入");
                     System.out.println("2.退出");
                     while(continue2_){
