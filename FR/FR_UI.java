@@ -324,7 +324,7 @@ public class FR_UI{
                 case "2":
                     //数据采集与监控    这段由Cr编写
                     while (continue1_1==true){ 
-                        continue1_1=true;
+                        continue1_2=true;
                         sc.nextLine();//吃掉换行符，学以致用
                         System.out.println("请输入你要执行的操作");
                         System.out.println("1.数据采集");
