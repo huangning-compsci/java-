@@ -44,4 +44,17 @@ public class equipment {
     public String getWellsite(){
         return e_wellsite;
     }
+    public void setWellsite(String wellsite){
+        this.e_wellsite=wellsite;
+    }
+    public void setInstallDate(String installdate){
+        this.e_Install_date=installdate;
+    }
+    public void setModel(String model){
+        this.e_model=model;
+    }
+    public void setStatus(String status){
+        this.e_Status=status;
+    }
+
 }

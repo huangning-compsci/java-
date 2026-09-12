@@ -160,6 +160,53 @@ public class FR_DEV{
         return result;
     }
     //请黄宁同志思考，是否会出现数组越界
+
+    //设备信息修改与补充代码如下
+    static boolean modifyById(String id, Scanner sc) {
+
+    equipment device = findById(id);
+
+    // 查询不到设备
+    if (device == null) {
+        System.out.println("未找到设备：" + id);
+        return false;
+    }
+
+    // 显示当前设备信息
+    System.out.println("找到设备，当前信息如下：");
+    show_info(device);
+
+    sc.nextLine();  // 吃掉上一行残留的换行符
+
+    // 逐项修改，直接回车表示不修改
+    System.out.print("所属井场（当前：" + device.getWellsite() + "，回车跳过）：");
+    String newWellsite = sc.nextLine().trim();
+    if (!newWellsite.isEmpty()) {
+        device.setWellsite(newWellsite);
+    }
+
+    System.out.print("安装日期（当前：" + device.getInstallDate() + "，回车跳过）：");
+    String newInstallDate = sc.nextLine().trim();
+    if (!newInstallDate.isEmpty()) {
+        device.setInstallDate(newInstallDate);
+    }
+
+    System.out.print("设备型号（当前：" + device.getModel() + "，回车跳过）：");
+    String newModel = sc.nextLine().trim();
+    if (!newModel.isEmpty()) {
+        device.setModel(newModel);
+    }
+
+    System.out.print("目前状态（当前：" + device.getStatus() + "，回车跳过）：");
+    String newStatus = sc.nextLine().trim();
+    if (!newStatus.isEmpty()) {
+        device.setStatus(newStatus);
+    }
+
+    System.out.println("修改完成！修改后的信息如下：");
+    show_info(device);
+    return true;
+}
 }
     
     

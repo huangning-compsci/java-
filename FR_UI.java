@@ -266,9 +266,44 @@ public class FR_UI{
                             System.out.println("-".repeat(68));
                             }
                             break;
+
                         case "3":
-                            //修改或补充设备信息
+                        //设备信息修改与补充
+                        while (continue1_4) {
+                            sc.nextLine();  // 吃掉上一轮残留的换行符
+                            System.out.println("请输入设备id，例如 PU_1:");
+                            String modifyId = sc.nextLine().trim();
+
+                        boolean success = FR_DEV.modifyById(modifyId, sc);
+
+                        if (!success) {
+                            System.out.println("是否重新输入？");
+                            System.out.println("1.重新输入");
+                            System.out.println("2.退出系统");
+                            System.out.println("3.返回上一级");
+                            System.out.println("=".repeat(30));
+                            System.out.println("请输入您的选择：");
+                        switch (sc.next()) {
+                        case "1":
                             break;
+                        case "2":
+                            continue1_4 = false;
+                            continue1_ = false;
+                            CONTINUE = false;
+                            break;
+                        case "3":
+                            continue1_4 = false;
+                            break;
+                        default:
+                            System.out.println("请输入正确的数字！");
+                            break;
+                        }
+                        } else {
+                            continue1_4 = false;  // 修改成功，退出这个子循环
+                        }
+                   }
+                        break;
+                        
                         case "4":
                             while (continue1_4){
                                 continue1_4=true;
@@ -323,7 +358,6 @@ public class FR_UI{
                 //此处case属于最大的switch
                 case "2":
                     //数据采集与监控
-                    
                     break;
                 case "3":
                     //报警管理
@@ -363,5 +397,4 @@ public class FR_UI{
         }
         sc.close();
     }
-    
 }
