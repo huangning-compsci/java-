@@ -3,6 +3,7 @@ package FR.devices;
 public class DeviceArray<T extends equipment> {
     private int count;
     private final T[] devices;
+    
 
     DeviceArray(T[] devices){
         this.devices=devices;
@@ -25,4 +26,17 @@ public class DeviceArray<T extends equipment> {
         }
         return  devices[index];
     }
+
+    public void fix(T device){
+        //用于随机数
+    }
+
+    public boolean remove(int index) {
+    if (index < 0 || index >= count || devices[index] == null) {
+        return false;
+    }
+
+    devices[index] = null;//要加一些后期位置复用功能
+    return true;
+}
 }
