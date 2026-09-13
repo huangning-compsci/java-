@@ -1,4 +1,4 @@
-package FR.devices;
+package devices;
 
 public class CentrifugalPump extends equipment {
     double ratedFlow;

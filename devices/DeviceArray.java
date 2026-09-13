@@ -1,4 +1,4 @@
-package FR.devices;
+package devices;
 
 public class DeviceArray<T extends equipment> {
     private int count;

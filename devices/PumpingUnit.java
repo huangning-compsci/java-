@@ -1,4 +1,4 @@
-package FR.devices;
+package devices;
 
 public  class  PumpingUnit extends  equipment{
     

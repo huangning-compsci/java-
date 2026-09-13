@@ -1,13 +1,13 @@
-package FR;
+
 import java.util.Scanner;
 
-import FR.devices.CentrifugalPump;
-import FR.devices.DeviceArray;
-import FR.devices.FlowMeter;
-import FR.devices.PressureSensor;
-import FR.devices.PumpingUnit;
-import FR.devices.TemperatureSensor;
-import FR.devices.equipment;
+import devices.CentrifugalPump;
+import devices.DeviceArray;
+import devices.FlowMeter;
+import devices.PressureSensor;
+import devices.PumpingUnit;
+import devices.TemperatureSensor;
+import devices.equipment;
 
 
 
