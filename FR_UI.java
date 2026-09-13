@@ -1,10 +1,9 @@
-package FR;
-import FR.devices.CentrifugalPump;
-import FR.devices.FlowMeter;
-import FR.devices.PressureSensor;
-import FR.devices.PumpingUnit;
-import FR.devices.TemperatureSensor;
-import FR.devices.equipment;
+import devices.CentrifugalPump;
+import devices.FlowMeter;
+import devices.PressureSensor;
+import devices.PumpingUnit;
+import devices.TemperatureSensor;
+import devices.equipment;
 import java.util.Scanner;
 
 public class FR_UI{

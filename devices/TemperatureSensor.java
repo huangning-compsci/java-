@@ -1,4 +1,4 @@
-package FR.devices;
+package devices;
 
 public class TemperatureSensor extends equipment{
     double tempRange;
