@@ -2,8 +2,8 @@
 
 import java.util.Random;
 
-public class FR_MON {
-    static double Random_(){
+public class FrMon {
+    static double random(){
     Random ra=new Random();
     double a=(ra.nextDouble()+1)*(ra.nextDouble(0.3)+1);
     return a;

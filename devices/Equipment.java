@@ -1,21 +1,27 @@
 package devices;
 
-public class equipment {
-    String e_ID;
-    String e_type;
-    String e_model;
-    String e_wellsite;
-    String e_Install_date;
-    String e_parameter;
-    String e_Status;
+public class Equipment {
+    private final String e_ID;
+    private final String e_type;
+    private String e_model;
+    private String e_wellsite;
+    private String e_Install_date;
+    private final String e_parameter;
+    private String e_Status;
       
-    equipment(
+    public Equipment(){
+        this("", "", "", "", "", "");
+    }
+
+    Equipment(
+        String e_ID,
         String e_type,
         String e_model,
         String e_wellsite,
         String e_Install_date,
         String e_parameter
        ){
+        this.e_ID=e_ID;
         this.e_Install_date=e_Install_date;
         this.e_Status="投运中";
         this.e_model=e_model;
@@ -27,6 +33,14 @@ public class equipment {
 
     public String getId(){
         return e_ID;
+    }
+
+    public String getType(){
+        return e_type;
+    }
+
+    public String getParameter(){
+        return e_parameter;
     }
 
     public String getInstallDate(){
