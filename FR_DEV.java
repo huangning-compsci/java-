@@ -1,6 +1,4 @@
-
 import java.util.Scanner;
-
 import devices.CentrifugalPump;
 import devices.DeviceArray;
 import devices.FlowMeter;
