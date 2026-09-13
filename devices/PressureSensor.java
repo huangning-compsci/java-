@@ -1,4 +1,4 @@
-package FR.devices;
+package devices;
 
 public class PressureSensor extends equipment{
     double pressureRange;
