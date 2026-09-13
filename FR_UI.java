@@ -19,6 +19,7 @@ public class FR_UI{
             boolean continue2_=true;
             boolean continue1_1=true;
             boolean continue1_4=true;
+            boolean continueD_=true;
             System.out.println("\t    首页");
             System.out.println("=".repeat(30));
 
@@ -31,7 +32,10 @@ public class FR_UI{
             System.out.println("请输入您的选择：");
             switch (sc.next()) {
                 case "1":
+                continue1_=true;
                 while(continue1_){
+                
+                
                 System.out.println("\t   设备管理");
                 System.out.println("=".repeat(30));
                 
@@ -50,8 +54,9 @@ public class FR_UI{
                     
                     case "1":
                         //加入容量不足的判断
-                    while (continue1_1==true){
-                        continue1_1=true;
+                    continue1_1=true;
+                    while (continue1_1){
+                        
                         sc.nextLine();//吃掉换行符，学以致用
                         System.out.println("请输入：设备类型");
                         System.out.println("1.抽油机(PU)");
@@ -270,8 +275,9 @@ public class FR_UI{
                             //修改或补充设备信息
                             break;
                         case "4":
+                            continue1_4=true;
                             while (continue1_4){
-                                continue1_4=true;
+                                
                                 System.out.println("请输入设备id");
                                 String Id=sc.next();
                 
@@ -323,7 +329,7 @@ public class FR_UI{
                 //此处case属于最大的switch
                 case "2":
                     //数据采集与监控    这段由Cr编写
-                   
+                    continue2_=true;
                     while (continue2_){ 
                         boolean continue2_1=true;
                         boolean continue2_2=true;
@@ -342,8 +348,8 @@ public class FR_UI{
                         switch(sc.next()){
                     
                             case  "1":{
-        
-                                while(continue2_1==true){
+                                continue2_1=true;
+                                while(continue2_1){
                                     System.out.println("\t   数据采集");
                                     System.out.println("=".repeat(30));
             
@@ -424,17 +430,18 @@ public class FR_UI{
                     break;
                 default:
                     System.out.println("输入的数字有误，是否重新输入");
-                    boolean continue_D =true;
+                    
 
                     System.out.println("1.重新输入");
                     System.out.println("2.退出");
-                    while(continue2_){
+                    continueD_ =true;
+                    while(continueD_){
                         switch (sc.next()) {
                             case "1":
-                                continue2_=false;
+                                continueD_=false;
                                 break;
                             case "2":
-                                continue2_=false;
+                                continueD_=false;
                                 CONTINUE=false;
                                 break;
                             default:
