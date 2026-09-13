@@ -1,6 +1,6 @@
 package devices;
 
-public class Equipment {
+public abstract class Equipment {
     private final String e_ID;
     private final String e_type;
     private String e_model;
@@ -70,5 +70,10 @@ public class Equipment {
     public void setStatus(String status){
         this.e_Status=status;
     }
+
+    public abstract void collectData();
+    public abstract boolean checkAlarm();
+
+    
 
 }

@@ -59,4 +59,17 @@ public class Compressor extends Equipment{
     public void setPower(double power){
         this.power=power;
     }
+
+    @Override //抽象方法
+    public void collectData(){
+        exhaustPressure=((int)Math.random()*160+600)/100.0;
+        exhaustFlow=((int)Math.random()*84+250)/100.0;
+    }
+    public boolean checkAlarm(){
+        if(exhaustPressure<6.5||exhaustPressure>8){
+            return false;
+        }else if(exhaustFlow<2.5){
+            return false;
+        }return true;
+    }
 }

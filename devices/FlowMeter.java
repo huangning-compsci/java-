@@ -69,4 +69,14 @@ public class FlowMeter extends Equipment{
     public void setTotalFlow(double totalFlow){
         this.totalFlow=totalFlow;
     }
+
+    @Override //抽象方法
+    public void collectData(){
+        currentFlow=((int)Math.random()*500+100)/100.0;
+    }
+    public boolean checkAlarm(){
+        if(currentFlow<1.50||currentFlow>4.50){
+            return false;
+        }return true;
+    }
 }

@@ -71,4 +71,23 @@ public class CentrifugalPump extends Equipment {
     public void setOutletPressure(double outletPressure){
         this.outletPressure=outletPressure;
     }
+
+    @Override //抽象方法
+    public void collectData(){
+        inletPressure=(((int)Math.random()*21)+10)/100.0;
+        double k;
+        if(Math.random()<0.8){
+            k=((int)Math.random()*21+90)/100.0;
+            
+        }else{
+            k=((int)Math.random()*30+50)/100.0;
+        }
+        outletPressure=inletPressure+k*1.176798;
+    }
+
+    public boolean checkAlarm(){
+        if(outletPressure<inletPressure+0.8*1.176798){
+            return false;
+        }return true;
+    }
 }
