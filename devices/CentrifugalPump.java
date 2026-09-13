@@ -10,6 +10,7 @@ public class CentrifugalPump extends equipment {
     public static final DeviceArray<CentrifugalPump> DEVICES=
             new DeviceArray<>(new CentrifugalPump[10]);
     
+    
 
     public CentrifugalPump(
             String e_wellsite,

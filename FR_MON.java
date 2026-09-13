@@ -1,12 +1,12 @@
 package FR;
-import FR.devices.CentrifugalPump;
-import FR.devices.DeviceArray;
-import FR.devices.FlowMeter;
-import FR.devices.PressureSensor;
-import FR.devices.PumpingUnit;
-import FR.devices.TemperatureSensor;
-import FR.devices.equipment;
+
+import java.util.Random;
 
 public class FR_MON {
-    
+    static double Random_(){
+    Random ra=new Random();
+    double a=(ra.nextDouble()+1)*(ra.nextDouble(0.3)+1);
+    return a;
+    //目前问题：泛型不会写，数据范围不确定，数据的范围的存储还不清晰
+    }
 }
