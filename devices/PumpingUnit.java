@@ -83,4 +83,12 @@ public  class  PumpingUnit extends  Equipment{
     public void setRatedLoad(double ratedLoad){
         this.ratedLoad=ratedLoad;
     }
+
+    @Override 
+    public void collectData(){
+        
+    } 
+    public boolean checkAlarm(){
+        return true;
+    }    
 }

@@ -69,4 +69,12 @@ public class TemperatureSensor extends Equipment{
     public void setUpperLimit(double upperLimit){
         this.upperLimit=upperLimit;
     }
+
+    @Override 
+    public void collectData(){
+        
+    } 
+    public boolean checkAlarm(){
+        return true;
+    }    
 }

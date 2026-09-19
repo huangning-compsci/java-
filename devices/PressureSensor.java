@@ -78,4 +78,11 @@ public class PressureSensor extends Equipment{
     public void setLowerLimit(double lowerLimit){
         this.lowerLimit=lowerLimit;
     }
+    @Override 
+    public void collectData(){
+        
+    } 
+    public boolean checkAlarm(){
+        return true;
+    }
 }
