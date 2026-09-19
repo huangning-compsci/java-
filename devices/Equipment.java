@@ -7,13 +7,13 @@ public abstract class Equipment {
     private String e_wellsite;
     private String e_Install_date;
     private final String e_parameter;
-    private String e_Status;
+    private String e_Status; 
       
     public Equipment(){
         this("", "", "", "", "", "");
     }
 
-    Equipment(
+    protected Equipment(
         String e_ID,
         String e_type,
         String e_model,

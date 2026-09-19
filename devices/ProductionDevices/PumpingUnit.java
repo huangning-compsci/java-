@@ -1,6 +1,8 @@
-package devices;
+package devices.ProductionDevices;
 
-public  class  PumpingUnit extends  Equipment{
+import devices.DeviceArray;
+
+public  class  PumpingUnit extends  ProductionEquipment{
     
     private double ratedPower;
     private double stroke;
