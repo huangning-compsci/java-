@@ -457,9 +457,7 @@ public class FrUi{
                     continue2_=true;
                     while (continue2_){ 
                         boolean continue2_1=true;
-                        boolean continue2_2=true;
-                        boolean continue2_3=true;
-                        boolean continue2_4=true;
+                        
                         sc.nextLine();//吃掉换行符，学以致用
                         System.out.println("请输入你要执行的操作");
                         System.out.println("1.数据采集");
