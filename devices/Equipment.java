@@ -23,7 +23,7 @@ public abstract class Equipment {
        ){
         this.e_ID=e_ID;
         this.e_Install_date=e_Install_date;
-        this.e_Status="投运中";
+        this.e_Status="尚未启动";
         this.e_model=e_model;
         this.e_parameter=e_parameter;
         this.e_type=e_type;
