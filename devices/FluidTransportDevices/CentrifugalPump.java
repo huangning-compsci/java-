@@ -42,6 +42,10 @@ public class CentrifugalPump extends FluidTransportEquipment {
         return DEVICES;
     }
 
+    
+    
+    
+    
     public double getRatedFlow(){
         return ratedFlow;
     }
