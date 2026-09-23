@@ -5,15 +5,15 @@ public abstract class Equipment {
     private final String e_type;
     private String e_model;
     private String e_wellsite;
-    private String e_Install_date;
+    private String e_Install_date;   //安装日期格式规定
     private final String e_parameter;
     private String e_Status;
       
     public Equipment(){
         this("", "", "", "", "", "");
-    }
+    } //调用本类中的有参构造方法
 
-    Equipment(
+    Equipment(    //前面没有加修饰词，意味着这是包访问权限；（即仅允许devices包里面的类访问）
         String e_ID,
         String e_type,
         String e_model,
@@ -72,7 +72,7 @@ public abstract class Equipment {
     }
 
     public abstract void collectData();
-    public abstract boolean checkAlarm();
+    public abstract boolean checkAlarm();//抽象方法
 
     
 

@@ -19,6 +19,8 @@ public class TemperatureSensor extends Equipment{
             "",
             "tempRange,accuracy,currentTemp,upperLimit"
         );
+        //参数设置
+        
         this.tempRange=100.0;
         this.accuracy="A级";
     }

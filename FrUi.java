@@ -78,15 +78,21 @@ public class FrUi{
                                 sc.nextLine();
                                 String wellsite;
                                 do {
-                                    System.out.println("请输入所属井场：");
+                                    System.out.println("请输入所属井场：(参考格式:01)");
                                     wellsite = sc.nextLine().trim();
-                                } while (wellsite.isEmpty());
+                                    if(!wellsite.matches("\\d{2}")){
+                                        System.out.println("格式错误！请按 xx 格式输入");
+                                    }
+                                } while (!wellsite.matches("\\d{2}"));
 
                                 String installDate;
                                 do {
-                                    System.out.println("请输入安装时间：");
+                                    System.out.println("请输入安装时间：(参考格式:xxxx-xx-xx)");
                                     installDate = sc.nextLine().trim();
-                                } while (installDate.isEmpty());
+                                    if(!installDate.matches("\\d{4}-\\d{2}-\\d{2}")){
+                                        System.out.println("格式错误！请按 xxxx-xx-xx 格式输入");
+                                    }
+                                } while (!installDate.matches("\\d{4}-\\d{2}-\\d{2}"));
 
                                 String model;
                                 do {
@@ -110,15 +116,22 @@ public class FrUi{
                                 sc.nextLine();
                                 String wellsite;
                                 do {
-                                    System.out.println("请输入所属井场：");
+                                    System.out.println("请输入所属井场：(参考格式:01)");
                                     wellsite = sc.nextLine().trim();
-                                } while (wellsite.isEmpty());
+                                    if(!wellsite.matches("\\d{2}")){
+                                        System.out.println("格式错误！请按 xx 格式输入");
+                                    }
+                                } while (!wellsite.matches("\\d{2}"));
 
                                 String installDate;
                                 do {
-                                    System.out.println("请输入安装时间：");
+                                    System.out.println("请输入安装时间：(参考格式:xxxx-xx-xx)");
                                     installDate = sc.nextLine().trim();
-                                } while (installDate.isEmpty());
+                                    if(!installDate.matches("\\d{4}-\\d{2}-\\d{2}")){
+                                        System.out.println("格式错误！请按 xxxx-xx-xx 格式输入");
+                                        continue;
+                                    }
+                                } while (!installDate.matches("\\d{4}-\\d{2}-\\d{2}"));
 
                                 String model;
                                 do {
@@ -142,15 +155,22 @@ public class FrUi{
                                 sc.nextLine();
                                 String wellsite;
                                 do {
-                                    System.out.println("请输入所属井场：");
+                                    System.out.println("请输入所属井场：(参考格式:01)");
                                     wellsite = sc.nextLine().trim();
-                                } while (wellsite.isEmpty());
+                                    if(!wellsite.matches("\\d{2}")){
+                                        System.out.println("格式错误！请按 xx 格式输入");
+                                    }
+                                } while (!wellsite.matches("\\d{2}"));
 
                                 String installDate;
                                 do {
-                                    System.out.println("请输入安装时间：");
+                                    System.out.println("请输入安装时间：(参考格式:xxxx-xx-xx)");
                                     installDate = sc.nextLine().trim();
-                                } while (installDate.isEmpty());
+                                    if(!installDate.matches("\\d{4}-\\d{2}-\\d{2}")){
+                                        System.out.println("格式错误！请按 xxxx-xx-xx 格式输入");
+                                        continue;
+                                    }
+                                } while (!installDate.matches("\\d{4}-\\d{2}-\\d{2}"));
 
                                 String model;
                                 do {
@@ -174,15 +194,22 @@ public class FrUi{
                                 sc.nextLine();
                                 String wellsite;
                                 do {
-                                    System.out.println("请输入所属井场：");
+                                    System.out.println("请输入所属井场：(参考格式:01)");
                                     wellsite = sc.nextLine().trim();
-                                } while (wellsite.isEmpty());
+                                    if(!wellsite.matches("\\d{2}")){
+                                        System.out.println("格式错误！请按 xx 格式输入");
+                                    }
+                                } while (!wellsite.matches("\\d{2}"));
 
                                 String installDate;
                                 do {
-                                    System.out.println("请输入安装时间：");
+                                    System.out.println("请输入安装时间：(参考格式:xxxx-xx-xx)");
                                     installDate = sc.nextLine().trim();
-                                } while (installDate.isEmpty());
+                                    if(!installDate.matches("\\d{4}-\\d{2}-\\d{2}")){
+                                        System.out.println("格式错误！请按 xxxx-xx-xx 格式输入");
+                                        continue;
+                                    }
+                                } while (!installDate.matches("\\d{4}-\\d{2}-\\d{2}"));
 
                                 String model;
                                 do {
@@ -206,15 +233,22 @@ public class FrUi{
                                 sc.nextLine();
                                 String wellsite;
                                 do {
-                                    System.out.println("请输入所属井场：");
+                                    System.out.println("请输入所属井场：(参考格式:01)");
                                     wellsite = sc.nextLine().trim();
-                                } while (wellsite.isEmpty());
+                                    if(!wellsite.matches("\\d{2}")){
+                                        System.out.println("格式错误！请按 xx 格式输入");
+                                    }
+                                } while (!wellsite.matches("\\d{2}"));
 
                                 String installDate;
                                 do {
-                                    System.out.println("请输入安装时间：");
+                                    System.out.println("请输入安装时间：(参考格式:xxxx-xx-xx)");
                                     installDate = sc.nextLine().trim();
-                                } while (installDate.isEmpty());
+                                    if(!installDate.matches("\\d{4}-\\d{2}-\\d{2}")){
+                                        System.out.println("格式错误！请按 xxxx-xx-xx 格式输入");
+                                        continue;
+                                    }
+                                } while (!installDate.matches("\\d{4}-\\d{2}-\\d{2}"));
 
                                 String model;
                                 do {
@@ -236,15 +270,22 @@ public class FrUi{
                                 sc.nextLine();
                                 String wellsite;
                                 do {
-                                    System.out.println("请输入所属井场：");
+                                    System.out.println("请输入所属井场：(参考格式:01)");
                                     wellsite = sc.nextLine().trim();
-                                } while (wellsite.isEmpty());
+                                    if(!wellsite.matches("\\d{2}")){
+                                        System.out.println("格式错误！请按 xx 格式输入");
+                                    }
+                                } while (!wellsite.matches("\\d{2}"));
 
                                 String installDate;
                                 do {
-                                    System.out.println("请输入安装时间：");
+                                    System.out.println("请输入安装时间：(参考格式:xxxx-xx-xx)");
                                     installDate = sc.nextLine().trim();
-                                } while (installDate.isEmpty());
+                                    if(!installDate.matches("\\d{4}-\\d{2}-\\d{2}")){
+                                        System.out.println("格式错误！请按 xxxx-xx-xx 格式输入");
+                                        continue;
+                                    }
+                                } while (!installDate.matches("\\d{4}-\\d{2}-\\d{2}"));
 
                                 String model;
                                 do {

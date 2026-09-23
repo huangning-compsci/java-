@@ -108,6 +108,10 @@ public class FrDev{
             return false;
         }
 
+        if("投运中".equals(device.getStatus())){
+            System.out.println("设备["+id+"]当前状态为:"+device.getStatus()+"处于运行状态中，不能删除");
+            return false;
+        }
         // 显示设备详细信息
         System.out.println("找到设备：");
         showInfo(device);
