@@ -6,8 +6,10 @@ import devices.PumpingUnit;
 import devices.TemperatureSensor;
 import exceptions.DeviceArrayFullException;
 import exceptions.DeviceNotFoundException;
+import exceptions.DeviceNotRunningException;
 import exceptions.InvalidDeviceIdException;
 import interfaces.Alarmable;
+import interfaces.Collectable;
 import devices.Equipment;
 import java.util.Scanner;
 
@@ -538,19 +540,35 @@ public class FrUi {
                                     System.out.println("2.批量数据采集");
                                     System.out.println("3.退出");
                                 switch(sc.next()){
-                                    case "1":
-                                      //实现
-
-                                    System.out.println("按任意键返回");
-                                    sc.nextLine();
-                                    break;
-                                    case "2":
-                                     //实现
-
-
-                                    System.out.println("按任意键返回");
-                                    sc.nextLine();
-                                    break;
+                                    case "1":{
+                                        //单机数据采集：按 id 找到设备，多态调用它自己的 collectData()
+                                        sc.nextLine();
+                                        System.out.println("请输入设备id,例如 PS_1:");
+                                        String collectId = sc.nextLine().trim();
+                                        try {
+                                            Equipment dev = FrDev.findById(collectId);
+                                            if (dev instanceof Collectable c) {
+                                                c.collectData();
+                                                System.out.println(c.collectSummary());
+                                            } else {
+                                                System.out.println("该设备类型不支持数据采集");
+                                            }
+                                        } catch (DeviceNotRunningException e) {
+                                            System.out.println(e.getMessage());
+                                        } catch (InvalidDeviceIdException | DeviceNotFoundException e) {
+                                            System.out.println(e.getMessage());
+                                        }
+                                        System.out.println("按任意键返回");
+                                        sc.nextLine();
+                                        break;
+                                    }
+                                    case "2":{
+                                        //批量数据采集：接口静态方法统一调度，未启动的设备自动跳过
+                                        Collectable.collectAll(allCollectables());
+                                        System.out.println("按任意键返回");
+                                        sc.nextLine();
+                                        break;
+                                    }
                                     case "3":
                                     continue2_1=false;
                                     break;
@@ -607,6 +625,10 @@ public class FrUi {
         System.out.println("请输入您的选择：");
         switch (sc.next()) {
             case "1": {
+                // 先采集一轮最新数据再巡检：否则检测的是设备初始值（全 0），
+                // PS/FM 会误报"低于下限"，TS 则永远"正常"
+                System.out.println("正在采集全部设备最新数据……");
+                Collectable.collectAll(allCollectables());
                 // Alarmable.patrol 内部统一 catch AlarmException 并按等级提示
                 int count = Alarmable.patrol(allAlarmables());
                 System.out.println(count == 0 ? "巡检完成，一切正常"
@@ -622,12 +644,17 @@ public class FrUi {
                 try {
                     Equipment dev = FrDev.findById(alarmId);
                     if (dev instanceof Alarmable a) {
+                        if (dev instanceof Collectable c) {
+                            c.collectData();   // 先采集最新数据再检测
+                        }
                         a.checkAlarm();
                         System.out.println(alarmId + " 状态正常，无报警");
                     } else {
                         System.out.println("该设备类型不支持报警检测");
                     }
                 } catch (exceptions.AlarmException e) {
+                    System.out.println(e.getMessage());
+                } catch (DeviceNotRunningException e) {
                     System.out.println(e.getMessage());
                 } catch (InvalidDeviceIdException | DeviceNotFoundException e) {
                     System.out.println(e.getMessage());
@@ -710,5 +737,16 @@ public class FrUi {
             }
         }
         return list.toArray(new Alarmable[0]);
+    }
+
+    /** 全部具备采集能力的设备（Collectable 版 allDevices）。 */
+    private static Collectable[] allCollectables() {
+        java.util.List<Collectable> list = new java.util.ArrayList<>();
+        for (Equipment e : allDevices()) {
+            if (e instanceof Collectable c) {
+                list.add(c);
+            }
+        }
+        return list.toArray(new Collectable[0]);
     }
 }
