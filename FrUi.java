@@ -1,17 +1,22 @@
 import alarm.AlarmLog;
+import alarm.AlarmRecord;
 import devices.CentrifugalPump;
 import devices.Compressor;
 import devices.FlowMeter;
 import devices.PressureSensor;
 import devices.PumpingUnit;
 import devices.TemperatureSensor;
+import exceptions.AlarmException;
 import exceptions.DeviceArrayFullException;
 import exceptions.DeviceNotFoundException;
 import exceptions.DeviceNotRunningException;
 import exceptions.InvalidDeviceIdException;
 import interfaces.Alarmable;
 import interfaces.Collectable;
+import interfaces.Maintainable;
 import devices.Equipment;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class FrUi {
@@ -623,7 +628,8 @@ public class FrUi {
         System.out.println("1.全部设备报警巡检");
         System.out.println("2.单设备报警检测");
         System.out.println("3.报警记录查询");
-        System.out.println("4.返回上一级菜单");
+        System.out.println("4.报警确认与处理");
+        System.out.println("5.返回上一级菜单");
         System.out.println("请输入您的选择：");
         switch (sc.next()) {
             case "1": {
@@ -668,12 +674,117 @@ public class FrUi {
             }
             case "3": {
                 // FR-ALM-03 报警查询：数据来源是巡检/检测时自动生成的报警记录
-                AlarmLog.printAll();
+                System.out.println("\t   报警记录查询（结果按报警时间倒序）");
+                System.out.println("1.查询全部");
+                System.out.println("2.按报警状态筛选");
+                System.out.println("3.按报警等级筛选");
+                System.out.println("4.按设备编号查询");
+                System.out.println("5.按时间范围查询");
+                System.out.println("请输入您的选择：");
+                switch (sc.next()) {
+                    case "1":
+                        AlarmLog.print(AlarmLog.query(null, null, null, null, null));
+                        break;
+                    case "2": {
+                        AlarmRecord.Status st = chooseStatus(sc);
+                        if (st != null) {
+                            AlarmLog.print(AlarmLog.query(st, null, null, null, null));
+                        }
+                        break;
+                    }
+                    case "3": {
+                        AlarmException.Level lv = chooseLevel(sc);
+                        if (lv != null) {
+                            AlarmLog.print(AlarmLog.query(null, lv, null, null, null));
+                        }
+                        break;
+                    }
+                    case "4": {
+                        sc.nextLine();
+                        System.out.println("请输入设备编号，例如 PS_1:");
+                        String queryId = sc.nextLine().trim();
+                        AlarmLog.print(AlarmLog.query(null, null, queryId, null, null));
+                        break;
+                    }
+                    case "5": {
+                        sc.nextLine();
+                        System.out.println("请输入开始日期（yyyy-MM-dd，回车表示不限）：");
+                        String fromStr = sc.nextLine().trim();
+                        System.out.println("请输入结束日期（yyyy-MM-dd，回车表示不限）：");
+                        String toStr = sc.nextLine().trim();
+                        try {
+                            LocalDateTime from = fromStr.isEmpty() ? null
+                                    : LocalDate.parse(fromStr).atStartOfDay();
+                            LocalDateTime to = toStr.isEmpty() ? null
+                                    : LocalDate.parse(toStr).plusDays(1).atStartOfDay().minusSeconds(1);
+                            AlarmLog.print(AlarmLog.query(null, null, null, from, to));
+                        } catch (java.time.format.DateTimeParseException e) {
+                            System.out.println("日期格式错误，请按 yyyy-MM-dd 输入");
+                        }
+                        break;
+                    }
+                    default:
+                        System.out.println("请输入正确的数字！");
+                        break;
+                }
                 System.out.println("按任意键继续");
                 sc.next();sc.nextLine();
                 break;
             }
-            case "4":
+            case "4": {
+                // FR-ALM-04 报警确认与处理
+                sc.nextLine();
+                System.out.println("请输入报警编号，例如 ALM_1:");
+                String handleId = sc.nextLine().trim();
+                AlarmRecord rec = AlarmLog.findById(handleId);
+                if (rec == null) {
+                    System.out.println("未找到报警记录：" + handleId);
+                } else {
+                    System.out.println(rec.toDetailString());
+                    System.out.println("-".repeat(30));
+                    System.out.println("1.确认报警（未确认 -> 已确认）");
+                    System.out.println("2.标记已处理（需先确认，填写处理说明）");
+                    System.out.println("3.忽略误报（填写忽略原因）");
+                    System.out.println("其他键.取消");
+                    System.out.println("请输入您的选择：");
+                    switch (sc.next()) {
+                        case "1":
+                            if (rec.confirm()) {
+                                System.out.println("报警 " + handleId + " 已确认");
+                                generateMaintenanceIfSupported(rec);   // FR-ALM-04 可选：确认后自动生成运维任务
+                            } else {
+                                System.out.println("操作失败：当前状态为「" + rec.getStatus()
+                                        + "」，仅未确认报警可确认");
+                            }
+                            break;
+                        case "2": {
+                            sc.nextLine();
+                            System.out.println("请输入处理说明：");
+                            String note = sc.nextLine().trim();
+                            System.out.println(rec.handle(note)
+                                    ? "报警 " + handleId + " 已标记为已处理"
+                                    : "操作失败：需先确认报警，且处理说明不能为空（当前状态：" + rec.getStatus() + "）");
+                            break;
+                        }
+                        case "3": {
+                            sc.nextLine();
+                            System.out.println("请输入忽略原因：");
+                            String reason = sc.nextLine().trim();
+                            System.out.println(rec.ignore(reason)
+                                    ? "报警 " + handleId + " 已忽略"
+                                    : "操作失败：忽略原因不能为空，或该报警已终结（当前状态：" + rec.getStatus() + "）");
+                            break;
+                        }
+                        default:
+                            System.out.println("已取消");
+                            break;
+                    }
+                }
+                System.out.println("按任意键继续");
+                sc.next();sc.nextLine();
+                break;
+            }
+            case "5":
                 continue3_=false;
                 break;
             default:
@@ -758,5 +869,48 @@ public class FrUi {
             }
         }
         return list.toArray(new Collectable[0]);
+    }
+
+    /** FR-ALM-03：选择报警状态，输入无效返回 null。 */
+    private static AlarmRecord.Status chooseStatus(Scanner sc) {
+        System.out.println("请选择报警状态：1.未确认 2.已确认 3.已处理 4.已忽略");
+        return switch (sc.next()) {
+            case "1" -> AlarmRecord.Status.UNCONFIRMED;
+            case "2" -> AlarmRecord.Status.CONFIRMED;
+            case "3" -> AlarmRecord.Status.HANDLED;
+            case "4" -> AlarmRecord.Status.IGNORED;
+            default -> {
+                System.out.println("输入无效");
+                yield null;
+            }
+        };
+    }
+
+    /** FR-ALM-03：选择报警等级，输入无效返回 null。 */
+    private static AlarmException.Level chooseLevel(Scanner sc) {
+        System.out.println("请选择报警等级：1.一级（紧急） 2.二级（重要） 3.三级（一般）");
+        return switch (sc.next()) {
+            case "1" -> AlarmException.Level.CRITICAL;
+            case "2" -> AlarmException.Level.WARNING;
+            case "3" -> AlarmException.Level.INFO;
+            default -> {
+                System.out.println("输入无效");
+                yield null;
+            }
+        };
+    }
+
+    /** FR-ALM-04 可选功能：报警确认后，若设备具备运维能力（Maintainable）则自动生成运维工单。 */
+    private static void generateMaintenanceIfSupported(AlarmRecord rec) {
+        try {
+            Equipment dev = FrDev.findById(rec.getDeviceId());
+            if (dev instanceof Maintainable m) {
+                m.requestMaintenance("[" + rec.getLevel() + "] " + rec.getDescription());
+            } else {
+                System.out.println("（该设备类型不支持自动运维工单，请人工安排检修）");
+            }
+        } catch (InvalidDeviceIdException | DeviceNotFoundException e) {
+            System.out.println("（设备 " + rec.getDeviceId() + " 已不在库中，跳过自动运维工单）");
+        }
     }
 }

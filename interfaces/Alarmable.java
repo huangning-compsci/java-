@@ -34,8 +34,8 @@ public interface Alarmable {
                 AlarmRecord rec = AlarmLog.record(e);
                 System.out.println(e.getMessage() + "（已生成报警记录 " + rec.getAlarmId() + "）");
                 if (e.getLevel() == AlarmException.Level.CRITICAL) {
-                    // 严重报警：可在这里联动停机或生成运维任务（FR-MNT-01）
-                    System.out.println(">>> 严重报警，建议立即停机检修 " + e.getDeviceId());
+                    // 一级报警（紧急）：可在这里联动停机或生成运维任务（FR-MNT-01）
+                    System.out.println(">>> 一级报警（紧急），建议立即停机检修 " + e.getDeviceId());
                 }
             }
         }
