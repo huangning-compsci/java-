@@ -4,17 +4,21 @@ import devices.FlowMeter;
 import devices.PressureSensor;
 import devices.PumpingUnit;
 import devices.TemperatureSensor;
+import exceptions.DeviceArrayFullException;
+import exceptions.DeviceNotFoundException;
+import exceptions.InvalidDeviceIdException;
+import interfaces.Alarmable;
 import devices.Equipment;
 import java.util.Scanner;
 
-public class FrUi{
+public class FrUi {
     public static void main(String[] args){
         System.out.println("=".repeat(30));
         System.out.println("SmartOil 油气井管理系统 v1.0");
-        
+
         Scanner sc=new Scanner(System.in);
         boolean CONTINUE=true;
-        
+
         while (CONTINUE){
             boolean continue1_=true;
             boolean continue2_=true;
@@ -36,11 +40,11 @@ public class FrUi{
                 case "1":
                 continue1_=true;
                 while(continue1_){
-                
-                
+
+
                 System.out.println("\t   设备管理");
                 System.out.println("=".repeat(30));
-                
+
                 System.out.println("1.新增设备");
                 System.out.println("2.查询设备");
                 System.out.println("3.修改或补充设备信息");
@@ -51,14 +55,13 @@ public class FrUi{
                 System.out.println("=".repeat(30));
 
                 System.out.println("请输入您的选择：");
-                
+
                 switch (sc.next()) {
-                    
+
                     case "1":
-                        //加入容量不足的判断
                     continue1_1=true;
                     while (continue1_1){
-                        
+
                         sc.nextLine();//吃掉换行符，学以致用
                         System.out.println("请输入：设备类型");
                         System.out.println("1.抽油机(PU)");
@@ -101,12 +104,17 @@ public class FrUi{
                                 } while (model.isEmpty());
 
                                 PumpingUnit device = new PumpingUnit(wellsite, installDate, model);
-                                boolean Success=FrDev.add(PumpingUnit.getDevices(),device);
-                                System.out.println();
-                                System.out.println (Success ? "添加成功" : "提交失败：数组已满");
+                                try {
+                                    FrDev.add(PumpingUnit.getDevices(), device);
+                                    System.out.println();
+                                    System.out.println("添加成功");
+                                } catch (DeviceArrayFullException e) {
+                                    System.out.println();
+                                    System.out.println(e.getMessage());
+                                }
                                 continue1_1=false;
-                                break;}
-                            
+                                break;
+                            }
                             case "2":
                             case "cp":
                             case "centrifugalpump":
@@ -129,7 +137,6 @@ public class FrUi{
                                     installDate = sc.nextLine().trim();
                                     if(!installDate.matches("\\d{4}-\\d{2}-\\d{2}")){
                                         System.out.println("格式错误！请按 xxxx-xx-xx 格式输入");
-                                        continue;
                                     }
                                 } while (!installDate.matches("\\d{4}-\\d{2}-\\d{2}"));
 
@@ -140,9 +147,14 @@ public class FrUi{
                                 } while (model.isEmpty());
 
                                 CentrifugalPump device = new CentrifugalPump(wellsite, installDate, model);
-                                boolean Success=FrDev.add(CentrifugalPump.getDevices(),device);
-                                System.out.println();
-                                System.out.println(Success?"添加成功":"添加失败：数组已满");
+                                try {
+                                    FrDev.add(CentrifugalPump.getDevices(), device);
+                                    System.out.println();
+                                    System.out.println("添加成功");
+                                } catch (DeviceArrayFullException e) {
+                                    System.out.println();
+                                    System.out.println(e.getMessage());
+                                }
                                 continue1_1=false;
                                 break;
                             }
@@ -168,7 +180,6 @@ public class FrUi{
                                     installDate = sc.nextLine().trim();
                                     if(!installDate.matches("\\d{4}-\\d{2}-\\d{2}")){
                                         System.out.println("格式错误！请按 xxxx-xx-xx 格式输入");
-                                        continue;
                                     }
                                 } while (!installDate.matches("\\d{4}-\\d{2}-\\d{2}"));
 
@@ -179,9 +190,14 @@ public class FrUi{
                                 } while (model.isEmpty());
 
                                 PressureSensor device = new PressureSensor(wellsite, installDate, model);
-                                boolean Success=FrDev.add(PressureSensor.getDevices(),device);
-                                System.out.println();
-                                System.out.println(Success?"添加成功":"添加失败：数组已满");
+                                try {
+                                    FrDev.add(PressureSensor.getDevices(), device);
+                                    System.out.println();
+                                    System.out.println("添加成功");
+                                } catch (DeviceArrayFullException e) {
+                                    System.out.println();
+                                    System.out.println(e.getMessage());
+                                }
                                 continue1_1=false;
                                 break;
                             }
@@ -207,7 +223,6 @@ public class FrUi{
                                     installDate = sc.nextLine().trim();
                                     if(!installDate.matches("\\d{4}-\\d{2}-\\d{2}")){
                                         System.out.println("格式错误！请按 xxxx-xx-xx 格式输入");
-                                        continue;
                                     }
                                 } while (!installDate.matches("\\d{4}-\\d{2}-\\d{2}"));
 
@@ -218,9 +233,14 @@ public class FrUi{
                                 } while (model.isEmpty());
 
                                 TemperatureSensor device = new TemperatureSensor(wellsite, installDate, model);
-                                boolean Success=FrDev.add(TemperatureSensor.getDevices(),device);
-                                System.out.println();
-                                System.out.println(Success?"添加成功":"添加失败：数组已满");
+                                try {
+                                    FrDev.add(TemperatureSensor.getDevices(), device);
+                                    System.out.println();
+                                    System.out.println("添加成功");
+                                } catch (DeviceArrayFullException e) {
+                                    System.out.println();
+                                    System.out.println(e.getMessage());
+                                }
                                 continue1_1=false;
                                 break;
                             }
@@ -246,7 +266,6 @@ public class FrUi{
                                     installDate = sc.nextLine().trim();
                                     if(!installDate.matches("\\d{4}-\\d{2}-\\d{2}")){
                                         System.out.println("格式错误！请按 xxxx-xx-xx 格式输入");
-                                        continue;
                                     }
                                 } while (!installDate.matches("\\d{4}-\\d{2}-\\d{2}"));
 
@@ -257,9 +276,14 @@ public class FrUi{
                                 } while (model.isEmpty());
 
                                 FlowMeter device = new FlowMeter(wellsite, installDate, model);
-                                boolean Success=FrDev.add(FlowMeter.getDevices(),device);
-                                System.out.println();
-                                System.out.println(Success?"添加成功":"添加失败：数组已满");
+                                try {
+                                    FrDev.add(FlowMeter.getDevices(), device);
+                                    System.out.println();
+                                    System.out.println("添加成功");
+                                } catch (DeviceArrayFullException e) {
+                                    System.out.println();
+                                    System.out.println(e.getMessage());
+                                }
                                 continue1_1=false;
                                 break;
                             }
@@ -283,7 +307,6 @@ public class FrUi{
                                     installDate = sc.nextLine().trim();
                                     if(!installDate.matches("\\d{4}-\\d{2}-\\d{2}")){
                                         System.out.println("格式错误！请按 xxxx-xx-xx 格式输入");
-                                        continue;
                                     }
                                 } while (!installDate.matches("\\d{4}-\\d{2}-\\d{2}"));
 
@@ -294,22 +317,27 @@ public class FrUi{
                                 } while (model.isEmpty());
 
                                 Compressor device = new Compressor(wellsite, installDate, model);
-                                boolean Success=FrDev.add(Compressor.getDevices(),device);
-                                System.out.println();
-                                System.out.println(Success?"添加成功":"添加失败：数组已满");
+                                try {
+                                    FrDev.add(Compressor.getDevices(), device);
+                                    System.out.println();
+                                    System.out.println("添加成功");
+                                } catch (DeviceArrayFullException e) {
+                                    System.out.println();
+                                    System.out.println(e.getMessage());
+                                }
                                 continue1_1=false;
                                 break;
                             }
                             default:
                                 System.out.println("暂不支持该设备，是否回到首页重新选择");
-            
+
                                 System.out.println("1.重新输入");
                                 System.out.println("2.退出");
                                 System.out.println("3.返回上一级菜单");
-                                
+
                                     switch (sc.next()) {
                                         case "1":
-                                            
+
                                             break;
                                         case "2":
                                             continue1_1=false;
@@ -321,30 +349,32 @@ public class FrUi{
                                             continue1_=false;
                                             break;
                                         default:
-                                        System.out.println("请输入正确的数字！");    
+                                        System.out.println("请输入正确的数字！");
                                         break;
-                                    
-                                    
+
+
                                     }
                                 }
                             }
-                        
-                            
+
+
                             break;
                         case "2":
-                            sc.nextLine();
-                            System.out.println("请输入设备id,例如 PU_1:");
-                            String id=sc.nextLine();
-                            
-                            Equipment device =FrDev.findById(id);
-                            if(device==null){
-                                System.out.println("未找到相关设备");
-                            }else{
-                            System.out.println("-".repeat(30)+"设备信息"+"-".repeat(30));
-                            FrDev.showInfo(device);  //改成编号为参数,泛型
+                        sc.nextLine();
+                        System.out.println("请输入设备id,例如 PU_1:");
+                        String id = sc.nextLine();
+                        try {
+                            Equipment device = FrDev.findById(id);   // 异常版 findById
+                            System.out.println("-".repeat(30) + "设备信息" + "-".repeat(30));
+                            System.out.println(FrDev.showInfo(device));
                             System.out.println("-".repeat(68));
-                            }
-                            break;
+                        } catch (InvalidDeviceIdException e) {
+                            System.out.println("输入有误：" + e.getMessage());
+                        } catch (DeviceNotFoundException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+
 
                         case "3":
                         //设备信息修改与补充
@@ -354,13 +384,19 @@ public class FrUi{
                             System.out.println("请输入设备id，例如 PU_1:");
                             String modifyId = sc.nextLine().trim();
 
-                            Equipment modifyDevice = FrDev.findById(modifyId);
-                            boolean success = false;
-                            if (modifyDevice == null) {
+                            Equipment modifyDevice = null;
+                            try{
+                                modifyDevice=FrDev.findById(modifyId);
+                            }catch(InvalidDeviceIdException e){
+                                System.out.println("输入有误："+e.getMessage());
+                            }catch(DeviceNotFoundException e){
                                 System.out.println("未找到设备：" + modifyId);
-                            } else {
+                            }
+
+                            boolean success = false;
+                            if (modifyDevice != null) {
                                 System.out.println("找到设备，当前信息如下：");
-                                FrDev.showInfo(modifyDevice);
+                                System.out.println(FrDev.showInfo(modifyDevice));
                                 System.out.println("\t    信息修改");
                                 System.out.print("所属井场（当前：" + modifyDevice.getWellsite() + "，回车跳过）：");
                                 String newWellsite = sc.nextLine().trim();
@@ -371,52 +407,62 @@ public class FrUi{
                                 System.out.print("目前状态（当前：" + modifyDevice.getStatus() + "，回车跳过）：");
                                 String newStatus = sc.nextLine().trim();
 
-                                success = FrDev.modifyById(modifyId, newWellsite, newInstallDate,
-                                        newModel, newStatus);
+                                try {
+                                    success = FrDev.modifyById(modifyId, newWellsite, newInstallDate,
+                                            newModel, newStatus);
+                                } catch (InvalidDeviceIdException | DeviceNotFoundException e) {
+                                    // 理论上不会触发（上面已查到设备），但受检异常必须处理
+                                    System.out.println(e.getMessage());
+                                }
                             }
 
                             System.out.println();
                             System.out.println(success ? "设备 " + modifyId + " 修改成功！" : "设备修改失败！");
 
-                        if (!success) {
-                            System.out.println("*".repeat(30));
-                            System.out.println("是否重新输入？");
-                            System.out.println("1.重新输入");
-                            System.out.println("2.退出系统");
-                            System.out.println("3.返回上一级");
-                            System.out.println("=".repeat(30));
-                            System.out.println("请输入您的选择：");
-                        switch (sc.next()) {
-                        case "1":
-                            break;
-                        case "2":
-                            continue1_3 = false;
-                            continue1_ = false;
-                            CONTINUE = false;
-                            break;
-                        case "3":
-                            continue1_3 = false;
-                            break;
-                        default:
-                            System.out.println("请输入正确的数字！");
-                            break;
+                            if (!success) {
+                                System.out.println("*".repeat(30));
+                                System.out.println("是否重新输入？");
+                                System.out.println("1.重新输入");
+                                System.out.println("2.退出系统");
+                                System.out.println("3.返回上一级");
+                                System.out.println("=".repeat(30));
+                                System.out.println("请输入您的选择：");
+                                switch (sc.next()) {
+                                    case "1":
+                                        break;
+                                    case "2":
+                                        continue1_3 = false;
+                                        continue1_ = false;
+                                        CONTINUE = false;
+                                        break;
+                                    case "3":
+                                        continue1_3 = false;
+                                        break;
+                                    default:
+                                        System.out.println("请输入正确的数字！");
+                                        break;
+                                }
+                            } else {
+                                System.out.println("修改后的信息如下：");
+                                System.out.println(FrDev.showInfo(modifyDevice));
+                                continue1_3 = false;  // 修改成功，退出这个子循环
+                            }
                         }
-                        } else {
-                            System.out.println("修改后的信息如下：");
-                            FrDev.showInfo(modifyDevice);
-                            continue1_3 = false;  // 修改成功，退出这个子循环
-                        }
-                   }
                         break;
-                        
+
                         case "4":
                             continue1_4=true;
                             while (continue1_4){
-                                
+
                                 System.out.println("请输入设备id");
                                 String Id=sc.next();
-                
-                                boolean Success=FrDev.deleteById(Id, sc);
+
+                                boolean Success=false;
+                                try {
+                                    Success=FrDev.deleteById(Id, sc);
+                                } catch (InvalidDeviceIdException | DeviceNotFoundException e) {
+                                    System.out.println(e.getMessage());
+                                }
                                 System.out.println();
                                 System.out.print(Success?"设备 " + Id + " 删除成功！":"设备删除失败！");
                                 if(!Success){
@@ -428,7 +474,7 @@ public class FrUi{
                                     System.out.println("请输入您的选择");
                                     switch (sc.next()) {
                                         case "1":
-                                            
+
                                             break;
                                         case "2":
                                             continue1_4=false;
@@ -448,7 +494,7 @@ public class FrUi{
                                 }
                             }
                             break;
-                        
+
                         case "5":
                             continue1_=false;
                             CONTINUE=false;
@@ -465,7 +511,7 @@ public class FrUi{
                 case "2":
                     //数据采集与监控    这段由Cr编写
                     continue2_=true;
-                    while (continue2_){ 
+                    while (continue2_){
                         boolean continue2_1=true;
                         boolean continue2_2=true;
                         boolean continue2_3=true;
@@ -481,58 +527,58 @@ public class FrUi{
 
 
                         switch(sc.next()){
-                    
+
                             case  "1":{
                                 continue2_1=true;
                                 while(continue2_1){
                                     System.out.println("\t   数据采集");
                                     System.out.println("=".repeat(30));
-            
+
                                     System.out.println("1.单机数据采集");
                                     System.out.println("2.批量数据采集");
                                     System.out.println("3.退出");
                                 switch(sc.next()){
                                     case "1":
                                       //实现
-        
+
                                     System.out.println("按任意键返回");
                                     sc.nextLine();
                                     break;
                                     case "2":
                                      //实现
-        
-                                    
+
+
                                     System.out.println("按任意键返回");
                                     sc.nextLine();
                                     break;
                                     case "3":
-                                    continue2_1=false;   
+                                    continue2_1=false;
                                     break;
                                     default:
                                     System.out.println("非法输入，跳转回上一页面");
-                                    break;   
+                                    break;
                                 }
-                            
-        
+
+
                                 }
-                                
+
                                break;
                             }
-        
+
                             case "2":{
                                 System.out.println("\t   实时状态");
                                 System.out.println("=".repeat(30));
                                 //
-                                
-                                System.out.println("按任意键返回");  
-                                sc.nextLine();                            
+
+                                System.out.println("按任意键返回");
+                                sc.nextLine();
                             }
                             break;
                             case "3":{
                                 System.out.println("\t   实时状态");
                                 System.out.println("=".repeat(30));
                                 //
-                                
+
                                 System.out.println("按任意键返回");
                                 sc.nextLine();
                             }
@@ -541,18 +587,66 @@ public class FrUi{
                                 System.out.println("\t   实时状态");
                                 System.out.println("=".repeat(30));
                                 //
-                                
+
                                 System.out.println("按任意键返回");
                                 sc.nextLine();
                             }
                             break;
                             }
                     }
-                      
+
                  break;
-                case "3":
-                    //报警管理
-                    break;
+                case "3": {
+    boolean continue3_=true;
+    while (continue3_){
+        System.out.println("\t   报警管理");
+        System.out.println("=".repeat(30));
+        System.out.println("1.全部设备报警巡检");
+        System.out.println("2.单设备报警检测");
+        System.out.println("3.返回上一级菜单");
+        System.out.println("请输入您的选择：");
+        switch (sc.next()) {
+            case "1": {
+                // Alarmable.patrol 内部统一 catch AlarmException 并按等级提示
+                int count = Alarmable.patrol(allAlarmables());
+                System.out.println(count == 0 ? "巡检完成，一切正常"
+                        : "巡检完成，共发现 " + count + " 条报警");
+                System.out.println("按任意键继续");
+                sc.next();sc.nextLine();
+                break;
+            }
+            case "2": {
+                sc.nextLine();
+                System.out.println("请输入设备id,例如 PS_1:");
+                String alarmId = sc.nextLine().trim();
+                try {
+                    Equipment dev = FrDev.findById(alarmId);
+                    if (dev instanceof Alarmable a) {
+                        a.checkAlarm();
+                        System.out.println(alarmId + " 状态正常，无报警");
+                    } else {
+                        System.out.println("该设备类型不支持报警检测");
+                    }
+                } catch (exceptions.AlarmException e) {
+                    System.out.println(e.getMessage());
+                } catch (InvalidDeviceIdException | DeviceNotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
+                System.out.println("按任意键继续");
+                sc.next();sc.nextLine();
+                break;
+            }
+            case "3":
+                continue3_=false;
+                break;
+            default:
+                System.out.println("请输入正确的数字！");
+                break;
+        }
+    }
+    break;
+}
+
                 case "4":
                     //运维任务管理
                     break;
@@ -565,7 +659,7 @@ public class FrUi{
                     break;
                 default:
                     System.out.println("输入的数字有误，是否重新输入");
-                    
+
 
                     System.out.println("1.重新输入");
                     System.out.println("2.退出");
@@ -589,5 +683,32 @@ public class FrUi{
 
         }
         sc.close();
+    }
+    private static Equipment[] allDevices() {
+        java.util.List<Equipment> list = new java.util.ArrayList<>();
+        devices.DeviceArray<?>[] pools = {
+                PumpingUnit.getDevices(), CentrifugalPump.getDevices(),
+                PressureSensor.getDevices(), TemperatureSensor.getDevices(),
+                FlowMeter.getDevices(), Compressor.getDevices()
+        };
+        for (devices.DeviceArray<?> pool : pools) {
+            for (int i = 0; i < pool.size(); i++) {
+                Equipment e = pool.getOrNull(i);
+                if (e != null) {
+                    list.add(e);
+                }
+            }
+        }
+        return list.toArray(new Equipment[0]);
+    }
+
+    private static Alarmable[] allAlarmables() {
+        java.util.List<Alarmable> list = new java.util.ArrayList<>();
+        for (Equipment e : allDevices()) {
+            if (e instanceof Alarmable a) {
+                list.add(a);
+            }
+        }
+        return list.toArray(new Alarmable[0]);
     }
 }

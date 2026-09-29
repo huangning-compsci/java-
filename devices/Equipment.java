@@ -1,5 +1,8 @@
 package devices;
 
+import exceptions.AlarmException;
+import exceptions.DeviceNotRunningException;
+
 public abstract class Equipment {
     private final String e_ID;
     private final String e_type;
@@ -71,8 +74,9 @@ public abstract class Equipment {
         this.e_Status=status;
     }
 
-    public abstract void collectData();
-    public abstract boolean checkAlarm();//抽象方法
+    public abstract void collectData() throws DeviceNotRunningException;
+    public abstract boolean checkAlarm() throws AlarmException;
+
 
     
 
