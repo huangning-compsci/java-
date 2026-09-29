@@ -6,14 +6,7 @@ import interfaces.Alarmable;
 import interfaces.Collectable;
 
 /**
- * 抽油机：实现 Collectable + Alarmable 两个接口。
- *
- * 修复说明（"报不了警"的根因之一）：
- *   1) 原类没有 implements Alarmable，FrUi.allAlarmables() 用 instanceof 过滤时
- *      会直接把它排除，巡检永远扫不到抽油机；
- *   2) 原 checkAlarm() 是空壳，永远 return true，从不抛 AlarmException；
- *   3) 原 collectData() 是空实现，currentLoad 永远是 0。
- *
+ * 抽油机：实现 Collectable + Alarmable 两个接口
  * FR-ALM-01 规则：当前载荷 > 额定载荷的 120% -> 严重报警（一级）；
  *                 当前载荷 > 额定载荷        -> 警告（二级）。
  */
@@ -82,7 +75,7 @@ public class PumpingUnit extends Equipment
     public boolean checkAlarm() throws AlarmException {
         if (currentLoad > ratedLoad * 1.2) {
             throw new AlarmException(getId(), AlarmException.Level.CRITICAL,
-                    String.format("载荷 %.1f kN 超过额定载荷的 120%%（额定 %.1f kN），有断杆风险",
+                    String.format("载荷 %.1f kN 超过额定载荷的 120%%（额定 %.1f kN）",
                             currentLoad, ratedLoad));
         }
         if (currentLoad > ratedLoad) {

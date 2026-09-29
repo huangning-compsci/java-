@@ -1,3 +1,4 @@
+import alarm.AlarmLog;
 import devices.CentrifugalPump;
 import devices.Compressor;
 import devices.FlowMeter;
@@ -621,7 +622,8 @@ public class FrUi {
         System.out.println("=".repeat(30));
         System.out.println("1.全部设备报警巡检");
         System.out.println("2.单设备报警检测");
-        System.out.println("3.返回上一级菜单");
+        System.out.println("3.报警记录查询");
+        System.out.println("4.返回上一级菜单");
         System.out.println("请输入您的选择：");
         switch (sc.next()) {
             case "1": {
@@ -653,6 +655,7 @@ public class FrUi {
                         System.out.println("该设备类型不支持报警检测");
                     }
                 } catch (exceptions.AlarmException e) {
+                    AlarmLog.record(e);   // FR-ALM-01：单设备检测出异常同样自动生成报警记录
                     System.out.println(e.getMessage());
                 } catch (DeviceNotRunningException e) {
                     System.out.println(e.getMessage());
@@ -663,7 +666,14 @@ public class FrUi {
                 sc.next();sc.nextLine();
                 break;
             }
-            case "3":
+            case "3": {
+                // FR-ALM-03 报警查询：数据来源是巡检/检测时自动生成的报警记录
+                AlarmLog.printAll();
+                System.out.println("按任意键继续");
+                sc.next();sc.nextLine();
+                break;
+            }
+            case "4":
                 continue3_=false;
                 break;
             default:

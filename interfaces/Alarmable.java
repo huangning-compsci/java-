@@ -1,5 +1,7 @@
 package interfaces;
 
+import alarm.AlarmLog;
+import alarm.AlarmRecord;
 import exceptions.AlarmException;
 
 /**
@@ -28,7 +30,9 @@ public interface Alarmable {
                 d.checkAlarm();
             } catch (AlarmException e) {
                 alarmCount++;
-                System.out.println(e.getMessage());
+                // FR-ALM-01：检测到异常，自动生成一条报警记录入库
+                AlarmRecord rec = AlarmLog.record(e);
+                System.out.println(e.getMessage() + "（已生成报警记录 " + rec.getAlarmId() + "）");
                 if (e.getLevel() == AlarmException.Level.CRITICAL) {
                     // 严重报警：可在这里联动停机或生成运维任务（FR-MNT-01）
                     System.out.println(">>> 严重报警，建议立即停机检修 " + e.getDeviceId());

@@ -24,11 +24,14 @@ public class AlarmException extends OilfieldException {
 
     private final String deviceId;
     private final Level level;
+    /** 原始报警描述（不含 "[等级] 设备 id：" 前缀），供生成报警记录（FR-ALM-01）。 */
+    private final String description;
 
     public AlarmException(String deviceId, Level level, String message) {
         super("[" + level.getLabel() + "] 设备 " + deviceId + "：" + message);
         this.deviceId = deviceId;
         this.level = level;
+        this.description = message;
     }
 
     public String getDeviceId() {
@@ -37,5 +40,9 @@ public class AlarmException extends OilfieldException {
 
     public Level getLevel() {
         return level;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
