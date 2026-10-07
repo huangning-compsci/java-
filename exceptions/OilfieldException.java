@@ -6,7 +6,7 @@ public OilfieldException(String message) {
         super(message);
     }
 
-    public OilfieldException(String message, Throwable cause) {
+public OilfieldException(String message, Throwable cause) {
         super(message, cause);
-    }
+}
 }
