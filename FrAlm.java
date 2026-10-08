@@ -13,17 +13,13 @@ import java.util.Scanner;
 public class FrAlm {
     /** 先采集最新数据，再巡检全部设备，返回报警数量。 */
     public static int patrol(Equipment... devices) {
-        java.util.List<Collectable> collectables = new java.util.ArrayList<>();
         java.util.List<Alarmable> alarmables = new java.util.ArrayList<>();
         for (Equipment device : devices) {
-            if (device instanceof Collectable c) {
-                collectables.add(c);
-            }
             if (device instanceof Alarmable a) {
                 alarmables.add(a);
             }
         }
-        Collectable.collectAll(collectables.toArray(new Collectable[0]));
+        FrMon.collectAll(devices);
         return Alarmable.patrol(alarmables.toArray(new Alarmable[0]));
     }
 
