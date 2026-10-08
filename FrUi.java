@@ -525,7 +525,6 @@ public class FrUi {
                         boolean continue2_2=true;
                         boolean continue2_3=true;
                         boolean continue2_4=true;
-                        sc.nextLine();//吃掉换行符，学以致用
                         System.out.println("请输入你要执行的操作");
                         System.out.println("1.数据采集");
                         System.out.println("2.实时状态");
@@ -589,23 +588,33 @@ public class FrUi {
                             }
 
                             case "2":{
-                                System.out.println("\t   实时状态");
+                                sc.nextLine();
+                                System.out.println("\t   实时状态台账");
                                 System.out.println("=".repeat(30));
-                                //
-
+                                FrMon.showAll(allDevices());
                                 System.out.println("按任意键返回");
                                 sc.nextLine();
+                                break;
                             }
-                            break;
+
                             case "3":{
-                                System.out.println("\t   实时状态");
+                                System.out.println("\t   单设备状态查看");
                                 System.out.println("=".repeat(30));
-                                //
-
+                                System.out.println("请输入设备id,例如PU_1");
+                                sc.nextLine(); // 消费菜单选项后的换行
+                                String collectId =sc.nextLine().trim();
+                                try {
+                                    System.out.println(FrMon.showById(collectId));
+                                } catch (InvalidDeviceIdException | DeviceNotFoundException e) {
+                                    System.out.println(e.getMessage());
+                                }
                                 System.out.println("按任意键返回");
                                 sc.nextLine();
+                                break;
+
+                               
                             }
-                            break;
+
                             case "4":{
                                 System.out.println("\t   实时状态");
                                 System.out.println("=".repeat(30));
