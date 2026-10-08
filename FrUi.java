@@ -11,7 +11,6 @@ import exceptions.DeviceArrayFullException;
 import exceptions.DeviceNotFoundException;
 import exceptions.DeviceNotRunningException;
 import exceptions.InvalidDeviceIdException;
-import interfaces.Collectable;
 import devices.Equipment;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -532,12 +531,16 @@ public class FrUi {
                         System.out.println("2.实时状态");
                         System.out.println("3.单设备状态查看");
                         System.out.println("4.并发设备状态采集");
+                        System.out.println("0.返回上一级");
                         System.out.println("-".repeat(30));
 
 
 
                         switch(sc.next()){
-
+                            case  "0":{
+                                continue2_=false;
+                                break;
+                            }
                             case  "1":{
                                 continue2_1=true;
                                 while(continue2_1){
@@ -554,13 +557,7 @@ public class FrUi {
                                         System.out.println("请输入设备id,例如 PS_1:");
                                         String collectId = sc.nextLine().trim();
                                         try {
-                                            Equipment dev = FrDev.findById(collectId);
-                                            if (dev instanceof Collectable c) {
-                                                c.collectData();
-                                                System.out.println(c.collectSummary());
-                                            } else {
-                                                System.out.println("该设备类型不支持数据采集");
-                                            }
+                                            System.out.println(FrMon.collectById(collectId));
                                         } catch (DeviceNotRunningException e) {
                                             System.out.println(e.getMessage());
                                         } catch (InvalidDeviceIdException | DeviceNotFoundException e) {
@@ -572,7 +569,7 @@ public class FrUi {
                                     }
                                     case "2":{
                                         //批量数据采集：接口静态方法统一调度，未启动的设备自动跳过
-                                        Collectable.collectAll(allCollectables());
+                                        FrMon.collectAll(allDevices());
                                         System.out.println("按任意键返回");
                                         sc.nextLine();
                                         break;
@@ -841,17 +838,6 @@ public class FrUi {
             }
         }
         return list.toArray(new Equipment[0]);
-    }
-
-    /** 全部具备采集能力的设备（Collectable 版 allDevices）。 */
-    private static Collectable[] allCollectables() {
-        java.util.List<Collectable> list = new java.util.ArrayList<>();
-        for (Equipment e : allDevices()) {
-            if (e instanceof Collectable c) {
-                list.add(c);
-            }
-        }
-        return list.toArray(new Collectable[0]);
     }
 
 }
