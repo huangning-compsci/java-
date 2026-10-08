@@ -11,9 +11,6 @@ import exceptions.DeviceArrayFullException;
 import exceptions.DeviceNotFoundException;
 import exceptions.DeviceNotRunningException;
 import exceptions.InvalidDeviceIdException;
-import interfaces.Alarmable;
-import interfaces.Collectable;
-import interfaces.Maintainable;
 import devices.Equipment;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -528,18 +525,21 @@ public class FrUi {
                         boolean continue2_2=true;
                         boolean continue2_3=true;
                         boolean continue2_4=true;
-                        sc.nextLine();//吃掉换行符，学以致用
                         System.out.println("请输入你要执行的操作");
                         System.out.println("1.数据采集");
                         System.out.println("2.实时状态");
                         System.out.println("3.单设备状态查看");
                         System.out.println("4.并发设备状态采集");
+                        System.out.println("0.返回上一级");
                         System.out.println("-".repeat(30));
 
 
 
                         switch(sc.next()){
-
+                            case  "0":{
+                                continue2_=false;
+                                break;
+                            }
                             case  "1":{
                                 continue2_1=true;
                                 while(continue2_1){
@@ -556,13 +556,7 @@ public class FrUi {
                                         System.out.println("请输入设备id,例如 PS_1:");
                                         String collectId = sc.nextLine().trim();
                                         try {
-                                            Equipment dev = FrDev.findById(collectId);
-                                            if (dev instanceof Collectable c) {
-                                                c.collectData();
-                                                System.out.println(c.collectSummary());
-                                            } else {
-                                                System.out.println("该设备类型不支持数据采集");
-                                            }
+                                            System.out.println(FrMon.collectById(collectId));
                                         } catch (DeviceNotRunningException e) {
                                             System.out.println(e.getMessage());
                                         } catch (InvalidDeviceIdException | DeviceNotFoundException e) {
@@ -574,7 +568,7 @@ public class FrUi {
                                     }
                                     case "2":{
                                         //批量数据采集：接口静态方法统一调度，未启动的设备自动跳过
-                                        Collectable.collectAll(allCollectables());
+                                        FrMon.collectAll(allDevices());
                                         System.out.println("按任意键返回");
                                         sc.nextLine();
                                         break;
@@ -594,23 +588,33 @@ public class FrUi {
                             }
 
                             case "2":{
-                                System.out.println("\t   实时状态");
+                                sc.nextLine();
+                                System.out.println("\t   实时状态台账");
                                 System.out.println("=".repeat(30));
-                                //
-
+                                FrMon.showAll(allDevices());
                                 System.out.println("按任意键返回");
                                 sc.nextLine();
+                                break;
                             }
-                            break;
+
                             case "3":{
-                                System.out.println("\t   实时状态");
+                                System.out.println("\t   单设备状态查看");
                                 System.out.println("=".repeat(30));
-                                //
-
+                                System.out.println("请输入设备id,例如PU_1");
+                                sc.nextLine(); // 消费菜单选项后的换行
+                                String collectId =sc.nextLine().trim();
+                                try {
+                                    System.out.println(FrMon.showById(collectId));
+                                } catch (InvalidDeviceIdException | DeviceNotFoundException e) {
+                                    System.out.println(e.getMessage());
+                                }
                                 System.out.println("按任意键返回");
                                 sc.nextLine();
+                                break;
+
+                               
                             }
-                            break;
+
                             case "4":{
                                 System.out.println("\t   实时状态");
                                 System.out.println("=".repeat(30));
@@ -640,9 +644,7 @@ public class FrUi {
                 // 先采集一轮最新数据再巡检：否则检测的是设备初始值（全 0），
                 // PS/FM 会误报"低于下限"，TS 则永远"正常"
                 System.out.println("正在采集全部设备最新数据……");
-                Collectable.collectAll(allCollectables());
-                // Alarmable.patrol 内部统一 catch AlarmException 并按等级提示
-                int count = Alarmable.patrol(allAlarmables());
+                int count = FrAlm.patrol(allDevices());
                 System.out.println(count == 0 ? "巡检完成，一切正常"
                         : "巡检完成，共发现 " + count + " 条报警");
                 System.out.println("按任意键继续");
@@ -654,18 +656,8 @@ public class FrUi {
                 System.out.println("请输入设备id,例如 PS_1:");
                 String alarmId = sc.nextLine().trim();
                 try {
-                    Equipment dev = FrDev.findById(alarmId);
-                    if (dev instanceof Alarmable a) {
-                        if (dev instanceof Collectable c) {
-                            c.collectData();   // 先采集最新数据再检测
-                        }
-                        a.checkAlarm();
-                        System.out.println(alarmId + " 状态正常，无报警");
-                    } else {
-                        System.out.println("该设备类型不支持报警检测");
-                    }
-                } catch (exceptions.AlarmException e) {
-                    AlarmLog.record(e);   // FR-ALM-01：单设备检测出异常同样自动生成报警记录
+                    System.out.println(FrAlm.checkAlarm(alarmId));
+                } catch (AlarmException e) {
                     System.out.println(e.getMessage());
                 } catch (DeviceNotRunningException e) {
                     System.out.println(e.getMessage());
@@ -690,14 +682,14 @@ public class FrUi {
                         AlarmLog.print(AlarmLog.query(null, null, null, null, null));
                         break;
                     case "2": {
-                        AlarmRecord.Status st = chooseStatus(sc);
+                        AlarmRecord.Status st = FrAlm.chooseStatus(sc);
                         if (st != null) {
                             AlarmLog.print(AlarmLog.query(st, null, null, null, null));
                         }
                         break;
                     }
                     case "3": {
-                        AlarmException.Level lv = chooseLevel(sc);
+                        AlarmException.Level lv = FrAlm.chooseLevel(sc);
                         if (lv != null) {
                             AlarmLog.print(AlarmLog.query(null, lv, null, null, null));
                         }
@@ -755,7 +747,10 @@ public class FrUi {
                         case "1":
                             if (rec.confirm()) {
                                 System.out.println("报警 " + handleId + " 已确认");
-                                generateMaintenanceIfSupported(rec);   // FR-ALM-04 可选：确认后自动生成运维任务
+                                String maintenanceMessage = FrAlm.generateMaintenanceIfSupported(rec);
+                                if (!maintenanceMessage.isEmpty()) {
+                                    System.out.println(maintenanceMessage);
+                                }
                             } else {
                                 System.out.println("操作失败：当前状态为「" + rec.getStatus()
                                         + "」，仅未确认报警可确认");
@@ -854,67 +849,4 @@ public class FrUi {
         return list.toArray(new Equipment[0]);
     }
 
-    private static Alarmable[] allAlarmables() {
-        java.util.List<Alarmable> list = new java.util.ArrayList<>();
-        for (Equipment e : allDevices()) {
-            if (e instanceof Alarmable a) {
-                list.add(a);
-            }
-        }
-        return list.toArray(new Alarmable[0]);
-    }
-
-    /** 全部具备采集能力的设备（Collectable 版 allDevices）。 */
-    private static Collectable[] allCollectables() {
-        java.util.List<Collectable> list = new java.util.ArrayList<>();
-        for (Equipment e : allDevices()) {
-            if (e instanceof Collectable c) {
-                list.add(c);
-            }
-        }
-        return list.toArray(new Collectable[0]);
-    }
-
-    /** FR-ALM-03：选择报警状态，输入无效返回 null。 */
-    private static AlarmRecord.Status chooseStatus(Scanner sc) {
-        System.out.println("请选择报警状态：1.未确认 2.已确认 3.已处理 4.已忽略");
-        return switch (sc.next()) {
-            case "1" -> AlarmRecord.Status.UNCONFIRMED;
-            case "2" -> AlarmRecord.Status.CONFIRMED;
-            case "3" -> AlarmRecord.Status.HANDLED;
-            case "4" -> AlarmRecord.Status.IGNORED;
-            default -> {
-                System.out.println("输入无效");
-                yield null;
-            }
-        };
-    }
-
-    /** FR-ALM-03：选择报警等级，输入无效返回 null。 */
-    private static AlarmException.Level chooseLevel(Scanner sc) {
-        System.out.println("请选择报警等级：1.一级（紧急） 2.二级（重要） 3.三级（一般）");
-        return switch (sc.next()) {
-            case "1" -> AlarmException.Level.CRITICAL;
-            case "2" -> AlarmException.Level.WARNING;
-            case "3" -> AlarmException.Level.INFO;
-            default -> {
-                System.out.println("输入无效");
-                yield null;
-            }
-        };
-    }
-
-    /** FR-ALM-04 可选功能：报警确认后，若设备具备运维能力（Maintainable）则自动生成运维工单。 */
-    private static void generateMaintenanceIfSupported(AlarmRecord rec) {
-        try {
-            Equipment dev = FrDev.findById(rec.getDeviceId());
-            if (dev instanceof Maintainable m) {
-                m.requestMaintenance("[" + rec.getLevel() + "] " + rec.getDescription());
-            } else {
-                System.out.println("（该设备类型不支持自动运维工单，请人工安排检修）");
-            }
-        } catch (InvalidDeviceIdException | DeviceNotFoundException e) {
-            System.out.println("（设备 " + rec.getDeviceId() + " 已不在库中，跳过自动运维工单）");
-        }
-    }
 }

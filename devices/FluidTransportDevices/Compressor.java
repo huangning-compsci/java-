@@ -23,6 +23,9 @@ public class Compressor extends FluidTransportEquipment
         implements Collectable, Alarmable {
 
     private double exhaustPressure;
+    private boolean hasExhaustPressureData;
+    private boolean hasExhaustFlowData;
+    private java.time.LocalDateTime lastCollectedTime;
     private double exhaustFlow;
     private double power;
     private static final String NAME = "CM";
@@ -73,8 +76,56 @@ public class Compressor extends FluidTransportEquipment
             this.exhaustPressure = (int) (Math.random() * 160 + 600) / 100.0;  // 6.00~7.60 可能越限
         }
         this.exhaustFlow = (int) (Math.random() * 120 + 220) / 100.0;          // 2.20~3.40
-        System.out.printf("%s 排气参数采集完成：压力 %.2f MPa，流量 %.2f%n",
-                getId(), exhaustPressure, exhaustFlow);
+        this.hasExhaustPressureData = true;
+        this.hasExhaustFlowData = true;
+        this.lastCollectedTime = java.time.LocalDateTime.now();
+
+    }
+
+    @Override
+    public boolean hasCurrentData() {
+        return hasExhaustPressureData && hasExhaustFlowData;
+    }
+
+    @Override
+    public java.time.LocalDateTime getLastCollectedTime() {
+        return lastCollectedTime;
+    }
+
+    /** 单设备实时详情：检查已有数据，展示异常原因，不生成报警记录。 */
+    @Override
+    public String collectSummary() {
+        String data =
+                (hasExhaustPressureData ? String.format(java.util.Locale.ROOT, "排气压力：%.2f MPa", exhaustPressure) : "排气压力：尚无数据")
+                + System.lineSeparator() +
+                (hasExhaustFlowData ? String.format(java.util.Locale.ROOT, "排气流量：%.2f", exhaustFlow) : "排气流量：尚无数据");
+        String time = "采集时间：尚未采集";
+        if (hasExhaustPressureData || hasExhaustFlowData) {
+            time = lastCollectedTime == null ? "数据来源：手动设置（无采集时间）"
+                    : "最近采集时间：" + lastCollectedTime.format(
+                            java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        }
+        String detection = "检测结果：未检测（数据尚不完整）";
+        if (hasExhaustPressureData && hasExhaustFlowData) {
+            try {
+                checkAlarm();
+                detection = "检测结果：正常（当前数据未触发报警规则）";
+            } catch (AlarmException e) {
+                detection = "检测结果：异常\n报警等级：" + e.getLevel().getLabel()
+                        + "\n异常原因：" + e.getDescription();
+            }
+        }
+        return String.format(java.util.Locale.ROOT,
+                "压缩机实时详情%n"
+                + "【基本信息】%n"
+                + "设备编号：%s%n设备类型：%s%n所属井场：%s%n"
+                + "设备型号：%s%n安装日期：%s%n运行状态：%s%n"
+                + "【当前数据】%n%s%n%s%n"
+                + "【设备参数与报警规则】%n"
+                + "功率：%.1f kW%n一级报警：排气压力 < 6.5 MPa 或 > 8.0 MPa%n二级报警：排气流量 < 2.5%n"
+                + "【基于当前数据的检测结果】%n%s",
+                getId(), getType(), getWellsite(), getModel(), getInstallDate(),
+                getStatus(), data, time, power, detection);
     }
 
     /** FR-ALM-01 异常检测：排气压力越限严重报警，排气流量过低警告。 */
@@ -92,9 +143,17 @@ public class Compressor extends FluidTransportEquipment
     }
 
     public double getExhaustPressure() { return exhaustPressure; }
-    public void setExhaustPressure(double exhaustPressure) { this.exhaustPressure = exhaustPressure; }
+    public void setExhaustPressure(double exhaustPressure) {
+        this.exhaustPressure = exhaustPressure;
+        this.hasExhaustPressureData = true;
+        this.lastCollectedTime = null;
+    }
     public double getExhaustFlow() { return exhaustFlow; }
-    public void setExhaustFlow(double exhaustFlow) { this.exhaustFlow = exhaustFlow; }
+    public void setExhaustFlow(double exhaustFlow) {
+        this.exhaustFlow = exhaustFlow;
+        this.hasExhaustFlowData = true;
+        this.lastCollectedTime = null;
+    }
     public double getPower() { return power; }
     public void setPower(double power) { this.power = power; }
 }
