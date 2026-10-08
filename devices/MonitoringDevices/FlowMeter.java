@@ -19,6 +19,9 @@ public class FlowMeter extends MonitoringEquipment
     private double flowRange;
     private String accuracy;
     private double currentFlow;
+    private boolean hasCurrentFlowData;
+    private boolean hasTotalFlowData;
+    private java.time.LocalDateTime lastCollectedTime;
     private double totalFlow;
     private static final String NAME = "FM";
     private static int index;
@@ -61,8 +64,56 @@ public class FlowMeter extends MonitoringEquipment
         }
         this.currentFlow = (int) (Math.random() * 500 + 100) / 100.0;
         this.totalFlow += currentFlow;
-        System.out.printf("%s 流量采集完成：瞬时 %.2f m³/h，累计 %.2f m³%n",
-                getId(), currentFlow, totalFlow);
+        this.hasCurrentFlowData = true;
+        this.hasTotalFlowData = true;
+        this.lastCollectedTime = java.time.LocalDateTime.now();
+
+    }
+
+    @Override
+    public boolean hasCurrentData() {
+        return hasCurrentFlowData && hasTotalFlowData;
+    }
+
+    @Override
+    public java.time.LocalDateTime getLastCollectedTime() {
+        return lastCollectedTime;
+    }
+
+    /** 单设备实时详情：检查已有数据，展示异常原因，不生成报警记录。 */
+    @Override
+    public String collectSummary() {
+        String data =
+                (hasCurrentFlowData ? String.format(java.util.Locale.ROOT, "瞬时流量：%.2f m³/h", currentFlow) : "瞬时流量：尚无数据")
+                + System.lineSeparator() +
+                (hasTotalFlowData ? String.format(java.util.Locale.ROOT, "累计流量：%.2f m³", totalFlow) : "累计流量：尚无数据");
+        String time = "采集时间：尚未采集";
+        if (hasCurrentFlowData || hasTotalFlowData) {
+            time = lastCollectedTime == null ? "数据来源：手动设置（无采集时间）"
+                    : "最近采集时间：" + lastCollectedTime.format(
+                            java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        }
+        String detection = "检测结果：未检测（数据尚不完整）";
+        if (hasCurrentFlowData && hasTotalFlowData) {
+            try {
+                checkAlarm();
+                detection = "检测结果：正常（当前数据未触发报警规则）";
+            } catch (AlarmException e) {
+                detection = "检测结果：异常\n报警等级：" + e.getLevel().getLabel()
+                        + "\n异常原因：" + e.getDescription();
+            }
+        }
+        return String.format(java.util.Locale.ROOT,
+                "流量计实时详情%n"
+                + "【基本信息】%n"
+                + "设备编号：%s%n设备类型：%s%n所属井场：%s%n"
+                + "设备型号：%s%n安装日期：%s%n运行状态：%s%n"
+                + "【当前数据】%n%s%n%s%n"
+                + "【设备参数与报警规则】%n"
+                + "流量量程：%.2f m³/h%n精度：%s%n二级报警：瞬时流量 < 1.50 m³/h%n一级报警：瞬时流量 > 4.50 m³/h%n"
+                + "【基于当前数据的检测结果】%n%s",
+                getId(), getType(), getWellsite(), getModel(), getInstallDate(),
+                getStatus(), data, time, flowRange, accuracy, detection);
     }
 
     /** FR-ALM-01 异常检测：保留原设计的 1.50~4.50 正常区间。 */
@@ -85,7 +136,15 @@ public class FlowMeter extends MonitoringEquipment
     public String getAccuracy() { return accuracy; }
     public void setAccuracy(String accuracy) { this.accuracy = accuracy; }
     public double getCurrentFlow() { return currentFlow; }
-    public void setCurrentFlow(double currentFlow) { this.currentFlow = currentFlow; }
+    public void setCurrentFlow(double currentFlow) {
+        this.currentFlow = currentFlow;
+        this.hasCurrentFlowData = true;
+        this.lastCollectedTime = null;
+    }
     public double getTotalFlow() { return totalFlow; }
-    public void setTotalFlow(double totalFlow) { this.totalFlow = totalFlow; }
+    public void setTotalFlow(double totalFlow) {
+        this.totalFlow = totalFlow;
+        this.hasTotalFlowData = true;
+        this.lastCollectedTime = null;
+    }
 }
