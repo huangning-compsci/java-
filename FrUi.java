@@ -411,8 +411,30 @@ public class FrUi {
                                 String newInstallDate = sc.nextLine().trim();
                                 System.out.print("设备型号（当前：" + modifyDevice.getModel() + "，回车跳过）：");
                                 String newModel = sc.nextLine().trim();
-                                System.out.print("目前状态（当前：" + modifyDevice.getStatus() + "，回车跳过）：");
-                                String newStatus = sc.nextLine().trim();
+                                System.out.println("目前状态（当前：" + modifyDevice.getStatus() + "）：");
+                                String[] statuses = new String[]{"尚未启动", "投运中"};
+                                System.out.println("0.不修改（回车也可跳过）");
+                                for (int i = 0; i < statuses.length; i++) {
+                                    System.out.println((i + 1) + "." + statuses[i]);
+                                }
+                                String newStatus = "";
+                                while (true) {
+                                    System.out.print("请选择状态：");
+                                    String statusChoice = sc.nextLine().trim();
+                                    if (statusChoice.isEmpty() || "0".equals(statusChoice)) {
+                                        break;
+                                    }
+                                    try {
+                                        int choice = Integer.parseInt(statusChoice);
+                                        if (choice >= 1 && choice <= statuses.length) {
+                                            newStatus = statuses[choice - 1];
+                                            break;
+                                        }
+                                    } catch (NumberFormatException e) {
+                                        // 非数字输入与超出范围的编号都要求重新选择。
+                                    }
+                                    System.out.println("请输入0到" + statuses.length + "之间的选项编号！");
+                                }
 
                                 try {
                                     success = FrDev.modifyById(modifyId, newWellsite, newInstallDate,
@@ -542,10 +564,12 @@ public class FrUi {
                         boolean continue2_1=true;
                 
                         System.out.println("请输入你要执行的操作");
-                        System.out.println("1.数据采集");
+                        System.out.println("1.数据采集(需要先启动设备才能采集)");
                         System.out.println("2.实时状态");
                         System.out.println("3.单设备状态查看");
                         System.out.println("4.并发设备状态采集");
+                        System.out.println("5.一键启动设备(非采集数据仅启动)");
+                        System.out.println("6.一键关闭设备");
                         System.out.println("0.返回上一级");
                         System.out.println("-".repeat(30));
 
@@ -638,12 +662,32 @@ public class FrUi {
 
                                 System.out.println("按任意键返回");
                                 sc.nextLine();
+                                break;
                             }
-                            break;
-                            }
-                    }
+                            
 
-                 break;
+                            case "5":
+                                sc.nextLine();
+                                //try{}
+                                FrMon.turnOnAll(FrDev.allDevices());
+                                System.out.println("按任意键返回");
+                                sc.nextLine();
+                                break;
+                            
+
+                            case "6":
+                                sc.nextLine();
+                                //try{}
+                                FrMon.turnOffAll(FrDev.allDevices());
+                                
+                                System.out.println("按任意键返回");
+                                sc.nextLine();
+                                break;
+                        }
+                    break;    
+                    }
+                    
+                
                 case "3": {
     boolean continue3_=true;
     while (continue3_){
