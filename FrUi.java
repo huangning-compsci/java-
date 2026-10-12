@@ -510,9 +510,13 @@ public class FrUi {
                             continue1_=false;
                             break;
                         case "7":
+                            sc.nextLine();
                             System.out.println(FrDev.showInfo(FrDev.allDevices()));
+                            System.out.println("按任意键返回");
+                            sc.nextLine();
                             break;
                         case "0": {
+                            sc.nextLine();
                             int before = FrDev.allDevices().length;
                             try {
                                 FrDev.add20Devices();
@@ -521,6 +525,8 @@ public class FrUi {
                                 int added = FrDev.allDevices().length - before;
                                 System.out.println("本次已新增" + added + "个设备，批量新增中止：" + e.getMessage());
                             }
+                            System.out.println("按任意键返回");
+                            sc.nextLine();
                             break;
                         }
                         default:
