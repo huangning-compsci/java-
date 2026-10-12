@@ -24,6 +24,35 @@ public class FrDev {
         target.store(device);
     }
 
+    /** 一键新增 20 台预设设备，容量不足时停止并抛出异常。 */
+    static void add20Devices() throws DeviceArrayFullException {
+        add(PumpingUnit.getDevices(), new PumpingUnit("01", "2026-01-10", "CYJ10-3-53HB"));
+        add(PumpingUnit.getDevices(), new PumpingUnit("02", "2026-01-12", "CYJ12-4.8-73HB"));
+        add(PumpingUnit.getDevices(), new PumpingUnit("03", "2026-01-15", "CYJ14-5-89HB"));
+        add(PumpingUnit.getDevices(), new PumpingUnit("04", "2026-01-18", "CYJ16-6-109HB"));
+
+        add(CentrifugalPump.getDevices(), new CentrifugalPump("01", "2026-02-01", "IS50-32-125"));
+        add(CentrifugalPump.getDevices(), new CentrifugalPump("02", "2026-02-03", "IS65-50-160"));
+        add(CentrifugalPump.getDevices(), new CentrifugalPump("03", "2026-02-05", "IS80-65-200"));
+        add(CentrifugalPump.getDevices(), new CentrifugalPump("04", "2026-02-07", "IS100-80-250"));
+
+        add(PressureSensor.getDevices(), new PressureSensor("01", "2026-03-01", "PT-100"));
+        add(PressureSensor.getDevices(), new PressureSensor("02", "2026-03-03", "PT-200"));
+        add(PressureSensor.getDevices(), new PressureSensor("03", "2026-03-05", "PT-300"));
+
+        add(TemperatureSensor.getDevices(), new TemperatureSensor("01", "2026-03-10", "WZP-230"));
+        add(TemperatureSensor.getDevices(), new TemperatureSensor("02", "2026-03-12", "WZP-231"));
+        add(TemperatureSensor.getDevices(), new TemperatureSensor("03", "2026-03-15", "WZP-240"));
+
+        add(FlowMeter.getDevices(), new FlowMeter("01", "2026-04-01", "LWGY-25"));
+        add(FlowMeter.getDevices(), new FlowMeter("02", "2026-04-03", "LWGY-50"));
+        add(FlowMeter.getDevices(), new FlowMeter("03", "2026-04-05", "LWGY-80"));
+
+        add(Compressor.getDevices(), new Compressor("01", "2026-04-10", "LG-3.6/8"));
+        add(Compressor.getDevices(), new Compressor("02", "2026-04-12", "LG-6/8"));
+        add(Compressor.getDevices(), new Compressor("03", "2026-04-15", "LG-10/8"));
+    }
+
     /**
      * 生成设备信息表格（支持一次传多台设备）。
      * 注意：返回 String，调用方负责打印 —— System.out.println(FrDev.showInfo(device));
