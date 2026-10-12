@@ -182,4 +182,24 @@ public class FrDev {
         }
         return true;
     }
+
+    public static Equipment[] allDevices() {
+        java.util.List<Equipment> list = new java.util.ArrayList<>();
+        devices.DeviceArray<?>[] pools = {
+                PumpingUnit.getDevices(), CentrifugalPump.getDevices(),
+                PressureSensor.getDevices(), TemperatureSensor.getDevices(),
+                FlowMeter.getDevices(), Compressor.getDevices()
+        };
+        for (devices.DeviceArray<?> pool : pools) {
+            for (int i = 0; i < pool.size(); i++) {
+                Equipment e = pool.getOrNull(i);
+                if (e != null) {
+                    list.add(e);
+                }
+            }
+        }
+        
+        return list.toArray(new Equipment[0]);
+        
+    }
 }
