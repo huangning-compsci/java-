@@ -557,7 +557,7 @@ public class FrUi {
             }
                     break;
                 //此处case属于最大的switch
-                case "2":
+                case "2":{
                     
                     continue2_=true;
                     while (continue2_){
@@ -609,16 +609,17 @@ public class FrUi {
                                     case "2":{
                                         //批量数据采集：接口静态方法统一调度，未启动的设备自动跳过
                                         FrMon.collectAll(FrDev.allDevices());
+                                        sc.nextLine();
                                         System.out.println("按任意键返回");
                                         sc.nextLine();
                                         break;
                                     }
-                                    case "3":
-                                    continue2_1=false;
-                                    break;
-                                    default:
-                                    System.out.println("非法输入，跳转回上一页面");
-                                    break;
+                                    case "3":{
+                                        continue2_1=false;
+                                        break;}
+                                    default:{
+                                        System.out.println("非法输入，跳转回上一页面");
+                                        break;}
                                 }
 
 
@@ -666,26 +667,35 @@ public class FrUi {
                             }
                             
 
-                            case "5":
+                            case "5":{
                                 sc.nextLine();
-                                //try{}
                                 FrMon.turnOnAll(FrDev.allDevices());
+                                System.out.println("已将所有处于'尚未启动'的设备设置为'投运中'");
                                 System.out.println("按任意键返回");
                                 sc.nextLine();
                                 break;
+                            }
                             
 
-                            case "6":
-                                sc.nextLine();
-                                //try{}
+                            case "6":{
+                                sc.nextLine(); 
                                 FrMon.turnOffAll(FrDev.allDevices());
-                                
+                                System.out.println("已将所有处于'投运中'的设备设置为'尚未启动'");
                                 System.out.println("按任意键返回");
                                 sc.nextLine();
                                 break;
+                            }
+                            
+                            default:{
+                                System.out.println("请输入正确的数字");
+                                break;
+                            }
+                            
                         }
-                    break;    
+                        
                     }
+                    break;
+                }
                     
                 
                 case "3": {
