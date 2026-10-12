@@ -48,7 +48,7 @@ public interface Collectable {
     static void collectAll(Collectable... devices) {
         printTable(true, devices);
     }
-
+    //TODO:学习codex是如何实现文字台账的
     private static void printTable(boolean collect, Collectable... devices) {
         String[] headers = {"设备编号", "设备类型", "井场", "运行状态", "关键采集数据", "采集时间", collect ? "采集结果" : "数据状态"};
         java.util.List<String[]> rows = new java.util.ArrayList<>();
