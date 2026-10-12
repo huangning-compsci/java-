@@ -509,7 +509,7 @@ public class FrUi {
                             continue1_=false;
                             break;
                         case "7":
-                            System.out.println(FrDev.showInfo(allDevices()));
+                            System.out.println(FrDev.showInfo(FrDev.allDevices()));
                             break;
                         default:
                             System.out.println("请输入正确的数字！");
@@ -518,13 +518,11 @@ public class FrUi {
                     break;
                 //此处case属于最大的switch
                 case "2":
-                    //数据采集与监控    这段由Cr编写
+                    
                     continue2_=true;
                     while (continue2_){
                         boolean continue2_1=true;
-                        boolean continue2_2=true;
-                        boolean continue2_3=true;
-                        boolean continue2_4=true;
+                
                         System.out.println("请输入你要执行的操作");
                         System.out.println("1.数据采集");
                         System.out.println("2.实时状态");
@@ -568,7 +566,7 @@ public class FrUi {
                                     }
                                     case "2":{
                                         //批量数据采集：接口静态方法统一调度，未启动的设备自动跳过
-                                        FrMon.collectAll(allDevices());
+                                        FrMon.collectAll(FrDev.allDevices());
                                         System.out.println("按任意键返回");
                                         sc.nextLine();
                                         break;
@@ -591,7 +589,7 @@ public class FrUi {
                                 sc.nextLine();
                                 System.out.println("\t   实时状态台账");
                                 System.out.println("=".repeat(30));
-                                FrMon.showAll(allDevices());
+                                FrMon.showAll(FrDev.allDevices());
                                 System.out.println("按任意键返回");
                                 sc.nextLine();
                                 break;
@@ -644,7 +642,7 @@ public class FrUi {
                 // 先采集一轮最新数据再巡检：否则检测的是设备初始值（全 0），
                 // PS/FM 会误报"低于下限"，TS 则永远"正常"
                 System.out.println("正在采集全部设备最新数据……");
-                int count = FrAlm.patrol(allDevices());
+                int count = FrAlm.patrol(FrDev.allDevices());
                 System.out.println(count == 0 ? "巡检完成，一切正常"
                         : "巡检完成，共发现 " + count + " 条报警");
                 System.out.println("按任意键继续");
@@ -748,7 +746,7 @@ public class FrUi {
                             if (rec.confirm()) {
                                 System.out.println("报警 " + handleId + " 已确认");
                                 String maintenanceMessage = FrAlm.generateMaintenanceIfSupported(rec);
-                                if (!maintenanceMessage.isEmpty()) {
+                                if (!maintenanceMessage.isEmpty()) {//找不到设备或设备不支持运维时返回对应文字
                                     System.out.println(maintenanceMessage);
                                 }
                             } else {
@@ -780,7 +778,8 @@ public class FrUi {
                     }
                 }
                 System.out.println("按任意键继续");
-                sc.next();sc.nextLine();
+                sc.next();
+                sc.nextLine();
                 break;
             }
             case "5":
@@ -831,22 +830,6 @@ public class FrUi {
         }
         sc.close();
     }
-    private static Equipment[] allDevices() {
-        java.util.List<Equipment> list = new java.util.ArrayList<>();
-        devices.DeviceArray<?>[] pools = {
-                PumpingUnit.getDevices(), CentrifugalPump.getDevices(),
-                PressureSensor.getDevices(), TemperatureSensor.getDevices(),
-                FlowMeter.getDevices(), Compressor.getDevices()
-        };
-        for (devices.DeviceArray<?> pool : pools) {
-            for (int i = 0; i < pool.size(); i++) {
-                Equipment e = pool.getOrNull(i);
-                if (e != null) {
-                    list.add(e);
-                }
-            }
-        }
-        return list.toArray(new Equipment[0]);
-    }
+    
 
 }
