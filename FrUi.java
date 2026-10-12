@@ -57,6 +57,7 @@ public class FrUi {
                 System.out.println("5.退出");
                 System.out.println("6.返回上一级菜单");
                 System.out.println("7.查看设备台账");
+                System.out.println("0.测试:一键新增20个设备(请勿重复使用)");
 
                 System.out.println("=".repeat(30));
 
@@ -511,6 +512,17 @@ public class FrUi {
                         case "7":
                             System.out.println(FrDev.showInfo(FrDev.allDevices()));
                             break;
+                        case "0": {
+                            int before = FrDev.allDevices().length;
+                            try {
+                                FrDev.add20Devices();
+                                System.out.println("成功新增20个设备！");
+                            } catch (DeviceArrayFullException e) {
+                                int added = FrDev.allDevices().length - before;
+                                System.out.println("本次已新增" + added + "个设备，批量新增中止：" + e.getMessage());
+                            }
+                            break;
+                        }
                         default:
                             System.out.println("请输入正确的数字！");
                     }
