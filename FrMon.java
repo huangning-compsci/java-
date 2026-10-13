@@ -47,7 +47,7 @@ public class FrMon {
         Collectable.showAll(allCollectables(devices));
     }
     //一键启动设备功能,不然根本无法采集
-    public static void turnOnAll(Equipment... devices){
+    public static void turnOnAll(Equipment... devices) {
         for(Equipment x:devices){
             if(x.getStatus()=="尚未启动"){
                 x.setStatus("投运中");
