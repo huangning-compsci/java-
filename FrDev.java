@@ -212,6 +212,30 @@ public class FrDev {
         return true;
     }
 
+    static Equipment[] findByType(String type) {
+        return devices.DeviceFilter.filter(allDevices(), devices.DeviceFilter.byType(type));
+    }
+
+    static Equipment[] findByStatus(String status) {
+        return devices.DeviceFilter.filter(allDevices(), e -> e.getStatus().equals(status));
+    }
+
+    /** 模糊匹配编号、型号或井场；关键字不能为空。 */
+    static Equipment[] fuzzyFind(String keyword) {
+        if (keyword == null || keyword.isBlank()) {
+            throw new IllegalArgumentException("关键字不能为空");
+        }
+        String key = keyword.trim().toLowerCase(java.util.Locale.ROOT);
+        return devices.DeviceFilter.filter(allDevices(), e ->
+                containsIgnoreCase(e.getId(), key)
+                || containsIgnoreCase(e.getModel(), key)
+                || containsIgnoreCase(e.getWellsite(), key));
+    }
+
+    private static boolean containsIgnoreCase(String value, String key) {
+        return value != null && value.toLowerCase(java.util.Locale.ROOT).contains(key);
+    }
+
     public static Equipment[] allDevices() {
         java.util.List<Equipment> list = new java.util.ArrayList<>();
         devices.DeviceArray<?>[] pools = {
