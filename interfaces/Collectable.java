@@ -17,7 +17,7 @@ public interface Collectable {
 
     /**
      * 采集一次数据并写入设备自身的当前值字段。
-     * @throws DeviceNotRunningException 设备未启动时抛出
+     * @throws DeviceNotRunningException 设备不处于投运中状态时抛出
      */
     void collectData() throws DeviceNotRunningException;
 

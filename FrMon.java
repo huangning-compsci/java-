@@ -38,7 +38,7 @@ public class FrMon {
         return list.toArray(new Collectable[0]);
     }
 
-    /** 批量采集，未启动的设备由接口调度方法跳过并提示。 */
+    /** 批量采集，非投运设备由接口调度方法跳过并提示。 */
     public static void collectAll(Equipment... devices) {
         Collectable.collectAll(allCollectables(devices));
     }
@@ -49,7 +49,7 @@ public class FrMon {
     //一键启动设备功能,不然根本无法采集
     public static void turnOnAll(Equipment... devices) {
         for(Equipment x:devices){
-            if(x.getStatus()=="尚未启动"){
+            if(x != null && "尚未启动".equals(x.getStatus())){
                 x.setStatus("投运中");
             }
         }
@@ -58,7 +58,7 @@ public class FrMon {
     //一键设置设备为"尚未启动"
     public static void turnOffAll(Equipment... devices){
         for(Equipment x:devices){
-            if(x.getStatus()=="投运中"){
+            if(x != null && x.isRunning()){
                 x.setStatus("尚未启动");
             }
         }
